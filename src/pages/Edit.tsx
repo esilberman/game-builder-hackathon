@@ -10,6 +10,7 @@ const Edit = () => {
   const { gameCode } = useGameCode();
   const [input, setInput] = useState("");
   const [tab, setTab] = useState("game");
+  const [code, setCode] = useState("");
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -19,7 +20,29 @@ const Edit = () => {
 
   useEffect(() => {
     console.log('gameCode: ', gameCode);
+    extractCode(gameCode);
   }, [gameCode]);
+
+  const extractCode = (raw: string) => {
+    const start = raw.indexOf('<!DOCTYPE html>');
+    const end = raw.indexOf('</html>');
+
+    let code = raw;
+    if (end > 0) {
+        code = raw.slice(start, end + '</html>'.length);
+    } else {
+        code = raw.slice(start);
+    }
+
+    // No HTML? Something went wrong
+    if (code.length < 100) {
+        throw Error('Unable to extract code from response: ' + raw);
+    }
+
+    console.log('Extracted code: ', code);
+    setCode(code);
+    return code;
+  };
 
   return (
     <div className="h-screen bg-background text-foreground flex flex-col">
