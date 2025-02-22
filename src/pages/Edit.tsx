@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { generateAICode } from "@/components/GameAI";
 import { useToast } from "@/components/ui/use-toast";
 import example from "@/data/example.json";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const DEBUG = false;
 
@@ -112,12 +113,16 @@ const Edit = () => {
       {/* Main Stage */}
       <div className="main-stage flex-1 max-w-screen p-2">
           {tab === "game" ? (
+            code ? (
               <iframe
                 srcDoc={code}
                 className="w-full h-full rounded-sm border border-accent/20"
                 title="Game"
                 sandbox="allow-scripts allow-same-origin"
               />
+            ) : (
+              <Skeleton className="w-full h-full rounded-sm border border-accent/20" />
+            )
           ) : (
               <div className="w-full h-full text-foreground font-light overflow-y-scroll">
                 <pre className="pre-wrap break-all p-2">{code}</pre>
