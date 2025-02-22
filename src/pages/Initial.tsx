@@ -25,6 +25,7 @@ const Initial = () => {
     }
 
     try {
+      navigate('/edit');
       const response = await generateAICode(description);
 
       if (!response) {
@@ -36,7 +37,6 @@ const Initial = () => {
 
       // Navigate to edit page after successful generation
       setShowAgent(false);
-      navigate('/edit');
     } catch (error) {
       console.error('Error generating game:', error);
       toast({
