@@ -103,6 +103,7 @@ const Edit = () => {
             <TabsList>
               <TabsTrigger value="game" onClick={() => setTab('game')}>Game</TabsTrigger>
               <TabsTrigger value="code" onClick={() => setTab('code')}>Code</TabsTrigger>
+              <TabsTrigger value="art" onClick={() => setTab('art')}>Art</TabsTrigger>
             </TabsList>
         </Tabs>
         <Button variant="ghost" size="icon" className="hover:bg-accent">
@@ -123,10 +124,14 @@ const Edit = () => {
             ) : (
               <Skeleton className="w-full h-full rounded-sm border border-accent/20" />
             )
-          ) : (
+          ) : tab === "code" ? (
               <div className="w-full h-full text-foreground font-light overflow-y-scroll">
                 <pre className="pre-wrap break-all p-2">{code}</pre>
               </div>
+           ) : (
+            <div className="w-full h-full text-foreground font-light">
+              Art Placeholder
+            </div>
            )}
       </div>
 
