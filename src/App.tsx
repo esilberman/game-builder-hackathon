@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Initial from "./pages/Initial";
 import NotFound from "./pages/NotFound";
 import Edit from "./pages/Edit";
-import { GameCodeProvider } from '@/ai/codeContext';
+import { GameCodeProvider } from '@/components/ai/codeContext';
 
 const queryClient = new QueryClient();
 
