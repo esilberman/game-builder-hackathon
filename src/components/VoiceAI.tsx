@@ -38,7 +38,7 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
             { role: 'ai', message: "Awesome choice, my dude! \"Gravity Flip\" it is! Let's flesh this bad boy out and make it pop. I'm stoked to help you design this gravity-defying masterpiece! So, let's break it down:..." },
           ]);
 
-          setDescription("A platformer where you can only jump and flip gravity. The player navigates through wild levels by switching between floor and ceiling.");
+          setDescription("A platformer where you can only jump and flip gravity. The player navigates through levels by switching between floor and ceiling.");
         } else {
           await navigator.mediaDevices.getUserMedia({ audio: true });
 
@@ -100,25 +100,15 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
           >
             <X className="w-6 h-6" />
           </Button>
-          <div className="flex items-center gap-4">
-            <Tabs defaultValue="chat" className="w-[400px]">
-              <TabsList>
-                <TabsTrigger value="chat">Chat</TabsTrigger>
-                <TabsTrigger value="description">Description</TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
           <div className="flex items-center gap-5 text-md font-light text-muted-foreground">
             <span>Mode: {agentStatus}</span>
             <span>Status: {status}</span>
           </div>
         </div>
 
-        {/* Tab Contents */}
-        <Tabs defaultValue="chat" className="flex-1 flex flex-col">
-          <TabsContent value="chat" className="flex-1">
-            {/* Transcript Area */}
-            <div className="flex-1 overflow-y-auto bg-accent/5 rounded-lg p-6 mb-4">
+          {/* Primary Content */}
+          <div className="flex flex-col items-center justify-between flex-1 bg-accent/5 rounded-lg p-6 mb-4 gap-4">
+            <div className="overflow-y-auto mb-10">
               {transcript.length === 0 ? (
                 <div className="flex items-center justify-center h-full text-lg font-light text-muted-foreground">
                   Start talking to create your game...
@@ -146,15 +136,10 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
                 </div>
               )}
             </div>
-          </TabsContent>
-          <TabsContent value="description" className="flex-1">
-            <div className="h-full bg-accent/5 rounded-lg p-6">
-              <div className="text-lg font-light text-muted-foreground">
-                {description}
-              </div>
+            <div className="px-4 py-2 rounded-lg text-xl bg-primary text-primary-foreground font-medium">
+              {description}
             </div>
-          </TabsContent>
-        </Tabs>
+          </div>
 
         {/* Footer with Create Game Button */}
         <div className="flex justify-center pb-4">
