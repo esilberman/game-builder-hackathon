@@ -21,15 +21,15 @@ const Edit = () => {
     
     try {
       // Combine the current code and user input for the new prompt
-      const prompt = `Current game code: ${code}\n\nUser request: ${input}`;
+      const prompt = `${input}\n\nCODE:\n${code}`;
       
       // Generate new code using the game AI
       const result = await generateAICode(prompt);
       
       if (result?.content) {
         // Extract and set the new code
-        const newCode = extractCode(result.content);
         setGameCode(result.content);
+        const newCode = extractCode(result.content);
         setCode(newCode);
         
         // Clear input after successful generation
