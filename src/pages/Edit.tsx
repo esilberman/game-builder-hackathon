@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronLeft, ArrowUp, RefreshCw } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useGameCode } from '@/components/ai/codeContext';
+import { useGameCode } from '@/components/codeContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Edit = () => {

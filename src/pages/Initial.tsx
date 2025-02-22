@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Gamepad2, Wand2, Plus } from "lucide-react";
-import VoiceAI from "@/components/ai/VoiceAI";
+import VoiceAI from "@/components/VoiceAI";
 import { useToast } from '@/components/ui/use-toast';
-import { generateAICode } from '@/components/ai/GameAI';
+import { generateAICode } from '@/components/GameAI';
 import { useNavigate } from 'react-router-dom';
-import { useGameCode } from '@/components/ai/codeContext';
+import { useGameCode } from '@/components/codeContext';
 
 const Initial = () => {
   const [showAgent, setShowAgent] = useState(false);
