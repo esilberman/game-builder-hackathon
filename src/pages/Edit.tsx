@@ -6,7 +6,7 @@ import { ChevronLeft, ArrowUp, RefreshCw } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useGameCode } from '@/components/codeContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { generateAICode } from "@/components/GameAI";
+import { generateAICode } from "@/components/CodeAI";
 import { useToast } from "@/components/ui/use-toast";
 import example from "@/data/example.json";
 import { Skeleton } from "@/components/ui/skeleton";
