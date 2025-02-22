@@ -140,7 +140,7 @@ const Edit = () => {
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Type a command..."
+          placeholder="Make a change..."
           className="flex-1 h-auto"
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
