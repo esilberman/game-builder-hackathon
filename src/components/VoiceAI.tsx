@@ -1,4 +1,3 @@
-
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -14,6 +13,8 @@ type Message = {
   message: string;
   time_in_call_secs?: number;
 };
+
+type Role = 'user' | 'agent';
 
 const VoiceAI = ({ onClose }: VoiceAIProps) => {
   const conversationRef = useRef<Conversation | null>(null);
@@ -40,7 +41,7 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
           onModeChange: (mode) => {
             setAgentStatus(mode.mode);
           },
-          onMessage: (props: { message: string; source: 'user' | 'agent' }) => {
+          onMessage: (props: { message: string; source: Role; }) => {
             console.log("Received message:", props);
             setTranscript(prev => [...prev, {
               role: props.source,
