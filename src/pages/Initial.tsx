@@ -99,6 +99,7 @@ const Initial = () => {
             {showInput && (
               <div className="input-area w-full max-w-3xl p-2 flex gap-2">
                 <Input
+                  size="lg"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Create a game..."
@@ -110,7 +111,7 @@ const Initial = () => {
                     }
                   }}
                 />
-                <Button onClick={() => handleCreateGame(input)}>
+                <Button size="lg" onClick={() => handleCreateGame(input)}>
                   <ArrowUp className="w-5 h-5" />
                 </Button>
               </div>
