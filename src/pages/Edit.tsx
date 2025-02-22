@@ -33,13 +33,21 @@ const Edit = () => {
 
       {/* Main Stage */}
       <div className="flex-1 p-4 bg-accent/5">
-        {/* Game preview will go here */}
-        {/* Display the generated game code */}
-        {gameCode && 
+        {gameCode && (
+          <>
+            {/* Game preview will go here */}
+            <iframe
+              srcDoc={gameCode}
+              className="w-full h-full rounded-lg border border-accent/20"
+              title="Game Preview"
+              sandbox="allow-scripts allow-same-origin"
+            />
+            {/* Display the generated game code */}
             <div className="w-full h-full text-foreground font-light overflow-y-scroll">
-                {gameCode}
+              {gameCode}
             </div>
-        }
+          </>
+        )}
       </div>
 
       {/* Input Area */}
