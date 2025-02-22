@@ -15,16 +15,6 @@ type Message = {
   time_in_call_secs?: number;
 };
 
-type ElevenLabsMessage = {
-  type: string;
-  user_transcription_event?: {
-    user_transcript: string;
-  };
-  agent_response_event?: {
-    agent_response: string;
-  };
-};
-
 const VoiceAI = ({ onClose }: VoiceAIProps) => {
   const conversationRef = useRef<Conversation | null>(null);
   const [status, setStatus] = useState<string>("disconnected");
@@ -50,20 +40,12 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
           onModeChange: (mode) => {
             setAgentStatus(mode.mode);
           },
-          onMessage: (message: ElevenLabsMessage) => {
-            console.log("Received message:", message);
-            
-            if (message.type === "user_transcript" && message.user_transcription_event) {
-              setTranscript(prev => [...prev, {
-                role: 'user',
-                message: message.user_transcription_event.user_transcript
-              }]);
-            } else if (message.type === "agent_response" && message.agent_response_event) {
-              setTranscript(prev => [...prev, {
-                role: 'agent',
-                message: message.agent_response_event.agent_response
-              }]);
-            }
+          onMessage: (props: { message: string; source: 'user' | 'agent' }) => {
+            console.log("Received message:", props);
+            setTranscript(prev => [...prev, {
+              role: props.source,
+              message: props.message
+            }]);
           }
         });
 
