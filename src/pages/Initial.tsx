@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Gamepad2, Wand2, Plus } from "lucide-react";
 import VoiceAI from "@/ai/VoiceAI";
 
-const Index = () => {
+const Initial = () => {
   const [showAgent, setShowAgent] = useState(false);
   return <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
       <div className="hero-pattern absolute inset-0 opacity-50" />
@@ -59,4 +59,4 @@ const Index = () => {
       {showAgent && <VoiceAI onClose={() => setShowAgent(false)} />}
     </div>;
 };
-export default Index;
+export default Initial;
