@@ -79,14 +79,14 @@ const Initial = () => {
               An Arcade in Your Pocket
             </div>
           </div>
-          <h1 className="flex flex-row justify-center flex-wrap font-display text-9xl font-medium text-white mb-6 tracking-tight text-glow">
+          <h1 className="flex flex-row justify-center flex-wrap font-display text-7xl md:text-9xl font-medium text-white mb-6 tracking-tight text-glow">
             AI&nbsp;
             <span className="bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text">
               Game
             </span>
             &nbsp;Maker
           </h1>
-          <p className="text-m md:text-5xl font-thin text-grey-300 mb-12 mx-auto">
+          <p className="text-4xl md:text-5xl font-thin text-grey-300 mb-12 mx-auto">
             Idea to playable game in seconds.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
