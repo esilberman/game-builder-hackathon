@@ -1,17 +1,9 @@
-import React, { useState } from "react";
+
 import { Together } from "together-ai";
 
-type AIRequest = {
-    prompt: string;
-}
-
-interface generateCodeProps {
-    prompt: string;
-}
-
 type AIResult = { 
-    content: string 
-    time: number
+    content: string;
+    time: number;
 };
 
 const TOGETHER_API_KEY = import.meta.env.VITE_TOGETHER_API_KEY;
@@ -39,7 +31,7 @@ export const generateAICode = async (prompt: string): Promise<AIResult> => {
 
     if (!TOGETHER_API_KEY) {
         console.error('No API key provided for Together.ai');
-        return;
+        throw new Error('No API key provided for Together.ai');
     }
 
     const together = new Together({ apiKey: TOGETHER_API_KEY });
@@ -71,29 +63,18 @@ export const generateAICode = async (prompt: string): Promise<AIResult> => {
     });
 
     let accumulatedContent = '';
-    let isStreaming = true;
-    let streamContent = '';
-
     for await (const chunk of stream) {
         const content = chunk.choices[0]?.delta?.content || '';
         accumulatedContent += content;
-
-        // Update streaming content if context is available
-        if (content) {
-            streamContent = accumulatedContent;
-        }
-
-        // Log stream chunks in browser environment
         if (content) {
             console.log(content);
         }
     }
 
-    isStreaming = false;
-
     const endTime = Date.now();
     const executionTime = endTime - startTime;
     console.log('\nCode generation complete after ' + executionTime/1000 + ' sec');
+    
     return {
         content: accumulatedContent,
         time: executionTime,

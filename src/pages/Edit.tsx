@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -5,43 +6,78 @@ import { ChevronLeft, ArrowUp, RefreshCw } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useGameCode } from '@/components/codeContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { generateAICode } from "@/components/GameAI";
+import { useToast } from "@/components/ui/use-toast";
 
 const Edit = () => {
-  const { gameCode } = useGameCode();
+  const { gameCode, setGameCode } = useGameCode();
   const [input, setInput] = useState("");
   const [tab, setTab] = useState("game");
   const [code, setCode] = useState("");
+  const { toast } = useToast();
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!input.trim()) return;
-    // Handle send logic here
-    setInput("");
+    
+    try {
+      // Combine the current code and user input for the new prompt
+      const prompt = `Current game code: ${code}\n\nUser request: ${input}`;
+      
+      // Generate new code using the game AI
+      const result = await generateAICode(prompt);
+      
+      if (result?.content) {
+        // Extract and set the new code
+        const newCode = extractCode(result.content);
+        setGameCode(result.content);
+        setCode(newCode);
+        
+        // Clear input after successful generation
+        setInput("");
+        
+        toast({
+          title: "Game updated",
+          description: "Your changes have been applied to the game",
+        });
+      }
+    } catch (error) {
+      console.error("Error generating game:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to update the game. Please try again.",
+      });
+    }
   };
 
   useEffect(() => {
     console.log('gameCode: ', gameCode);
-    extractCode(gameCode);
+    if (gameCode) {
+      extractCode(gameCode);
+    }
   }, [gameCode]);
 
-  const extractCode = (raw: string) => {
+  const extractCode = (raw: string | null) => {
+    if (!raw) return "";
+    
     const start = raw.indexOf('<!DOCTYPE html>');
     const end = raw.indexOf('</html>');
 
-    let code = raw;
+    let extractedCode = raw;
     if (end > 0) {
-        code = raw.slice(start, end + '</html>'.length);
+        extractedCode = raw.slice(start, end + '</html>'.length);
     } else {
-        code = raw.slice(start);
+        extractedCode = raw.slice(start);
     }
 
     // No HTML? Something went wrong
-    if (code.length < 100) {
+    if (extractedCode.length < 100) {
         throw Error('Unable to extract code from response: ' + raw);
     }
 
-    console.log('Extracted code: ', code);
-    setCode(code);
-    return code;
+    console.log('Extracted code: ', extractedCode);
+    setCode(extractedCode);
+    return extractedCode;
   };
 
   return (
@@ -53,7 +89,7 @@ const Edit = () => {
             <ChevronLeft className="w-5 h-5" />
           </Button>
         </Link>
-        <Tabs defaultValue="game">
+        <Tabs defaultValue="game" value={tab}>
             <TabsList>
               <TabsTrigger value="game" onClick={() => setTab('game')}>Game</TabsTrigger>
               <TabsTrigger value="code" onClick={() => setTab('code')}>Code</TabsTrigger>
