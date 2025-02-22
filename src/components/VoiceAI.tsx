@@ -16,6 +16,8 @@ type Message = {
 
 type Role = 'user' | 'ai';
 
+const DEBUG = true;
+
 const VoiceAI = ({ onClose }: VoiceAIProps) => {
   const conversationRef = useRef<Conversation | null>(null);
   const [status, setStatus] = useState<string>("disconnected");
@@ -25,32 +27,43 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
   useEffect(() => {
     const startConversation = async () => {
       try {
-        await navigator.mediaDevices.getUserMedia({ audio: true });
+        if (DEBUG) {
+          setTranscript([
+            { role: 'ai', message: "What's up? It's ya boy Jamal here. So what kind of game would you like to make?" },
+            { role: 'user', message: "I'm not sure, but I want to make something with one mechanic. Can you suggest some ideas?" },
+            { role: 'ai', message: "Yo, I feel you! One-mechanic games can be super dope when done right. Let's brainstorm some sick ideas that could blow up on the web. How about these: 1. \"Gravity Flip\" - A platformer where you can only jump and flip gravity. You gotta navigate through wild levels by switching between floor and ceiling. Think \"VVVVVV\" but with your own twist. 2. \"Color Matcher\" - A puzzle game where you've got this color-changing blob, and you..." },
+            { role: 'user', message: "Okay. Let's make the first one." },
+            { role: 'ai', message: "Awesome choice, my dude! \"Gravity Flip\" it is! Let's flesh this bad boy out and make it pop. I'm stoked to help you design this gravity-defying masterpiece! So, let's break it down:..." },
+  
+          ]);
+        } else {
+          await navigator.mediaDevices.getUserMedia({ audio: true });
 
-        const conversation = await Conversation.startSession({
-          agentId: "8MFPKeCEf8q2bVQWbIJS",
-          onConnect: () => {
-            setStatus("connected");
-          },
-          onDisconnect: () => {
-            setStatus("disconnected");
-          },
-          onError: (error) => {
-            console.error("Error:", error);
-          },
-          onModeChange: (mode) => {
-            setAgentStatus(mode.mode);
-          },
-          onMessage: (props: { message: string; source: Role; }) => {
-            console.log("Received message:", props);
-            setTranscript(prev => [...prev, {
-              role: props.source,
-              message: props.message
-            }]);
-          }
-        });
+          const conversation = await Conversation.startSession({
+            agentId: "8MFPKeCEf8q2bVQWbIJS",
+            onConnect: () => {
+              setStatus("connected");
+            },
+            onDisconnect: () => {
+              setStatus("disconnected");
+            },
+            onError: (error) => {
+              console.error("Error:", error);
+            },
+            onModeChange: (mode) => {
+              setAgentStatus(mode.mode);
+            },
+            onMessage: (props: { message: string; source: Role; }) => {
+              console.log("Received message:", props);
+              setTranscript(prev => [...prev, {
+                role: props.source,
+                message: props.message
+              }]);
+            }
+          });
 
-        conversationRef.current = conversation;
+          conversationRef.current = conversation;
+        }
       } catch (error) {
         console.error("Failed to start conversation:", error);
       }
@@ -93,7 +106,7 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
         {/* Transcript Area */}
         <div className="flex-1 overflow-y-auto bg-accent/5 rounded-lg p-6 mb-4">
           {transcript.length === 0 ? (
-            <div className="flex items-center justify-center h-full text-lg font-medium text-muted-foreground">
+            <div className="flex items-center justify-center h-full text-lg font-light text-muted-foreground">
               Start talking to create your game...
             </div>
           ) : (
