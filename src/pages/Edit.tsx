@@ -42,7 +42,7 @@ const Edit = () => {
       </div>
 
       {/* Main Stage */}
-      <div className="flex-1 p-4 bg-accent/5">
+      <div className="main-stage flex-1 p-2">
           {tab === "game" ? (
               <iframe
                 srcDoc={gameCode}
