@@ -57,7 +57,7 @@ const Initial = () => {
       }} className="text-center max-w-5xl mx-auto">
           <div className="inline-block mb-6">
             <div className="glass rounded-full px-6 py-2 text-sm font-light text-grey-400">
-              Arcade in Your Pocket
+              An Arcade in Your Pocket
             </div>
           </div>
           <h1 className="flex flex-row justify-center flex-wrap font-display text-9xl font-medium text-white mb-6 tracking-tight text-glow">
