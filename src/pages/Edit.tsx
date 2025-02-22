@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Home, Send } from "lucide-react";
+import { Home, ArrowUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useGameCode } from '@/ai/codeContext';
 
@@ -23,7 +23,7 @@ const Edit = () => {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       {/* Header */}
-      <div className="p-4 border-b">
+      <div className="p-2">
         <Link to="/">
           <Button variant="ghost" size="icon" className="hover:bg-accent">
             <Home className="w-5 h-5" />
@@ -36,19 +36,19 @@ const Edit = () => {
         {/* Game preview will go here */}
         {/* Display the generated game code */}
         {gameCode && 
-            <div className="w-full h-full text-foreground font-light">
+            <div className="w-full h-full text-foreground font-light overflow-y-scroll">
                 {gameCode}
             </div>
         }
       </div>
 
       {/* Input Area */}
-      <div className="p-4 border-t flex gap-2">
+      <div className="p-2 flex gap-4">
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type a command..."
-          className="flex-1"
+          className="flex-1 h-auto"
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
@@ -57,7 +57,7 @@ const Edit = () => {
           }}
         />
         <Button onClick={handleSend}>
-          <Send className="w-5 h-5" />
+          <ArrowUp className="w-5 h-5" />
         </Button>
       </div>
     </div>
