@@ -111,7 +111,7 @@ const Initial = () => {
                     }
                   }}
                 />
-                <Button size="lg" onClick={() => handleCreateGame(input)}>
+                <Button size="lg" onClick={() => handleCreateGame(input)} className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white py-6 px-8 rounded-xl transition-all duration-200 transform hover:scale-105 flex items-center gap-2">
                   <ArrowUp className="w-5 h-5" />
                 </Button>
               </div>
