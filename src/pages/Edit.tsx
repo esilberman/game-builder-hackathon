@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const Edit = () => {
   const { gameCode } = useGameCode();
   const [input, setInput] = useState("");
+  const [tab, setTab] = useState("game");
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -31,8 +32,8 @@ const Edit = () => {
         </Link>
         <Tabs defaultValue="game">
             <TabsList>
-              <TabsTrigger value="game">Game</TabsTrigger>
-              <TabsTrigger value="code">Code</TabsTrigger>
+              <TabsTrigger value="game" onClick={() => setTab('game')}>Game</TabsTrigger>
+              <TabsTrigger value="code" onClick={() => setTab('code')}>Code</TabsTrigger>
             </TabsList>
         </Tabs>
         <Button variant="ghost" size="icon" className="hover:bg-accent">
@@ -42,21 +43,18 @@ const Edit = () => {
 
       {/* Main Stage */}
       <div className="flex-1 p-4 bg-accent/5">
-          <Tabs defaultValue="game">
-            <TabsContent value="game">
+          {tab === "game" ? (
               <iframe
                 srcDoc={gameCode}
                 className="w-full h-full rounded-lg border border-accent/20"
                 title="Game"
                 sandbox="allow-scripts allow-same-origin"
               />
-            </TabsContent>
-            <TabsContent value="code">
+          ) : (
               <div className="w-full h-full text-foreground font-light overflow-y-scroll">
                 {gameCode}
               </div>
-            </TabsContent>
-          </Tabs>
+           )}
       </div>
 
       {/* Input Area */}
