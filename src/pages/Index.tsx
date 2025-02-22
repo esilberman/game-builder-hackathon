@@ -20,8 +20,8 @@ const Index = () => {
           className="text-center max-w-4xl mx-auto"
         >
           <div className="inline-block mb-6">
-            <div className="glass rounded-full px-6 py-2 text-sm font-medium text-purple-300">
-              AI-Powered Game Creation
+            <div className="glass rounded-full px-6 py-2 text-sm font-light text-grey-400">
+              AI Game Studio in Your Pocket
             </div>
           </div>
           
@@ -33,8 +33,8 @@ const Index = () => {
             Maker
           </h1>
           
-          <p className="text-lg md:text-5xl font-thin text-white mb-12 max-w-2xl mx-auto">
-            Idea to playable game in seconds.
+          <p className="text-lg md:text-3xl font-thin text-white mb-12 max-w-2xl mx-auto">
+            Go from idea to playable game in seconds.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
