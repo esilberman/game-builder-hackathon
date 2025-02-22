@@ -46,7 +46,7 @@ const Edit = () => {
           {tab === "game" ? (
               <iframe
                 srcDoc={gameCode}
-                className="w-full h-full rounded-lg border border-accent/20"
+                className="w-full h-full rounded-sm border border-accent/20"
                 title="Game"
                 sandbox="allow-scripts allow-same-origin"
               />
