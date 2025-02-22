@@ -87,6 +87,41 @@ const VoiceAI = ({ onClose, onCreateGame }: VoiceAIProps) => {
     };
   }, []);
 
+  const handleCreateGame = async (description: string) => {
+    if (!description) {
+      toast({
+        title: "Error",
+        description: "No game description available. Please chat with the AI first to define your game.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const response = await generateAICode(description);
+
+      if (!response) {
+        throw new Error('Failed to generate game');
+      }
+
+      // Navigate to edit page with the generated code
+      setShowAgent(false);
+      navigate('/edit', { 
+        state: { 
+          gameCode: response.response,
+          description: description
+        } 
+      });
+    } catch (error) {
+      console.error('Error generating game:', error);
+      toast({
+        title: "Error",
+        description: "Failed to generate your game. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
