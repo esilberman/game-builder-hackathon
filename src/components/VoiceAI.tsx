@@ -75,17 +75,17 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
           >
             <X className="w-6 h-6" />
           </Button>
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span>Status: {status}</span>
+          <div className="flex items-center gap-5 text-md font-light text-muted-foreground">
             <span>Mode: {agentStatus}</span>
+            <span>Status: {status}</span>
           </div>
         </div>
 
         {/* Transcript Area */}
         <div className="flex-1 overflow-y-auto bg-accent/5 rounded-lg p-6 mb-4">
           {transcript.length === 0 ? (
-            <div className="flex items-center justify-center h-full text-muted-foreground">
-              Start speaking to create your game...
+            <div className="flex items-center justify-center h-full text-lg font-medium text-muted-foreground">
+              Start talking to create your game...
             </div>
           ) : (
             <div className="space-y-4">
@@ -112,7 +112,7 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
         <div className="flex justify-center pb-4">
           <Button
             size="lg"
-            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium"
           >
             Create Game
           </Button>
