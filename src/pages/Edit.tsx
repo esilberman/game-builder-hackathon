@@ -10,7 +10,7 @@ import { generateAICode } from "@/components/GameAI";
 import { useToast } from "@/components/ui/use-toast";
 import example from "@/data/example.json";
 
-const DEBUG = true;
+const DEBUG = false;
 
 const Edit = () => {
   const { gameCode, setGameCode } = useGameCode();
