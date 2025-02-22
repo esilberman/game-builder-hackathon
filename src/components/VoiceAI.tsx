@@ -106,43 +106,41 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
           </div>
         </div>
 
-          {/* Primary Content */}
-          <div className="flex flex-col items-center justify-between flex-1 bg-accent/5 rounded-lg p-6 mb-4 gap-4">
-            <div className="overflow-y-auto mb-10">
-              {transcript.length === 0 ? (
-                <div className="flex items-center justify-center h-full text-lg font-light text-muted-foreground">
-                  Start talking to create your game...
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {transcript.map((message, index) => (
+        {/* Primary Content */}
+        <div className="overflow-y-auto flex flex-col items-center justify-between flex-1 bg-accent/5 rounded-lg p-6 mb-4 gap-4">
+            {transcript.length === 0 ? (
+              <div className="flex items-center justify-center h-full text-lg font-light text-muted-foreground">
+                Start talking to create your game...
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {transcript.map((message, index) => (
+                  <div
+                    key={index}
+                    className={`flex flex-col ${
+                      message.role === 'user' ? 'items-end' : 'items-start'
+                    }`}
+                  >
                     <div
-                      key={index}
-                      className={`flex flex-col ${
-                        message.role === 'user' ? 'items-end' : 'items-start'
+                      className={`px-4 py-2 rounded-lg ${
+                        message.role === 'user'
+                          ? 'bg-muted text-accent-foreground font-light'
+                          : 'outline outline-1 outline-muted text-muted-foreground font-light'
                       }`}
                     >
-                      <div
-                        className={`px-4 py-2 rounded-lg ${
-                          message.role === 'user'
-                            ? 'bg-muted text-accent-foreground font-light'
-                            : 'outline outline-1 outline-muted text-muted-foreground font-light'
-                        }`}
-                      >
-                        {message.message}
-                      </div>
+                      {message.message}
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="px-4 py-2 rounded-lg text-xl bg-primary text-primary-foreground font-medium">
-              {description}
-            </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
         {/* Footer with Create Game Button */}
-        <div className="flex justify-center pb-4">
+        <div className="flex flex-col items-center justify-center pb-4 p-6 gap-4">
+            <div className="px-4 py-2 rounded-lg text-xl bg-primary text-primary-foreground font-medium">
+              {description}
+            </div>
           <Button
             size="lg"
             className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium"
