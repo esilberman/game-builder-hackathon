@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -13,12 +12,12 @@ const Index = () => {
       <div className="hero-pattern absolute inset-0 opacity-50" />
       <div className="hero-gradient absolute inset-0" />
       
-      <main className="relative container mx-auto px-4 pt-20 pb-32">
+      <main className="relative container mx-auto px-4 pt-32 pb-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto"
+          className="text-center max-w-4xl mx-auto"
         >
           <div className="inline-block mb-6">
             <div className="glass rounded-full px-6 py-2 text-sm font-medium text-purple-300">
@@ -26,17 +25,16 @@ const Index = () => {
             </div>
           </div>
           
-          <h1 className="font-display text-6xl md:text-7xl font-bold mb-6 tracking-tight text-glow">
-            Create Your Dream Game
-            <br /> 
+          <h1 className="font-display text-8xl md:text-10xl font-medium text-white mb-6 tracking-tight text-glow">
+            AI 
             <span className="bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text">
-              in Seconds
+              &nbsp;Game&nbsp;
             </span>
+            Maker
           </h1>
           
-          <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-            Transform your game ideas into reality with AI. No coding required.
-            Just describe your vision and watch it come to life.
+          <p className="text-lg md:text-5xl font-thin text-white mb-12 max-w-2xl mx-auto">
+            Idea to playable game in seconds.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
