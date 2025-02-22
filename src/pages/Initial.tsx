@@ -86,7 +86,7 @@ const Initial = () => {
             </span>
             &nbsp;Maker
           </h1>
-          <p className="text-4xl md:text-5xl font-thin text-grey-300 mb-12 mx-auto">
+          <p className="text-4xl md:text-6xl font-thin text-grey-300 mb-12 mx-auto">
             Idea to playable game in seconds.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
