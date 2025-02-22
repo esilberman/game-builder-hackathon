@@ -6,10 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import { Conversation } from "@11labs/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
-import { generateAICode } from "./GameAI";
 
 interface VoiceAIProps {
   onClose: () => void;
+  onCreateGame: (description: string) => void;
 }
 
 type Message = {
@@ -22,7 +22,7 @@ type Role = 'user' | 'ai';
 
 const DEBUG = true;
 
-const VoiceAI = ({ onClose }: VoiceAIProps) => {
+const VoiceAI = ({ onClose, onCreateGame }: VoiceAIProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const conversationRef = useRef<Conversation | null>(null);
@@ -30,7 +30,6 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
   const [agentStatus, setAgentStatus] = useState<string>("listening");
   const [transcript, setTranscript] = useState<Message[]>([]);
   const [description, setDescription] = useState<string>("");
-  const [isGeneratingGame, setIsGeneratingGame] = useState(false);
 
   useEffect(() => {
     const startConversation = async () => {
@@ -88,39 +87,6 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
     };
   }, []);
 
-  const handleCreateGame = async () => {
-    if (!description) {
-      toast({
-        title: "Error",
-        description: "No game description available. Please chat with the AI first to define your game.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsGeneratingGame(true);
-    try {
-      const response = await generateAICode(description);
-
-      if (!response) {
-        throw new Error('Failed to generate game');
-      }
-
-      // Navigate to edit page after successful generation
-      onClose();
-      navigate('/edit');
-    } catch (error) {
-      console.error('Error generating game:', error);
-      toast({
-        title: "Error",
-        description: "Failed to generate your game. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsGeneratingGame(false);
-    }
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -175,7 +141,7 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
             )}
           </div>
 
-        {/* Footer with Create Game Button */}
+        {/* Footer with Game Description */}
         <div className="flex flex-col items-center justify-center pb-4 p-6 gap-4">
             <div className="px-4 py-2 rounded-lg text-xl bg-primary text-primary-foreground font-medium">
               {description}
@@ -183,10 +149,9 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
           <Button
             size="xl"
             className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium"
-            onClick={handleCreateGame}
-            disabled={isGeneratingGame}
+            onClick={() => onCreateGame(description)}
           >
-            {isGeneratingGame ? "Generating..." : "Create Game"}
+            {"Create Game"}
           </Button>
         </div>
       </div>
