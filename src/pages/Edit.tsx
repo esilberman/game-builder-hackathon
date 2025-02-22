@@ -43,7 +43,7 @@ const Edit = () => {
       </div>
 
       {/* Input Area */}
-      <div className="p-2 flex gap-4">
+      <div className="p-2 flex gap-2">
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
