@@ -22,7 +22,7 @@ const Initial = () => {
       }} className="text-center max-w-5xl mx-auto">
           <div className="inline-block mb-6">
             <div className="glass rounded-full px-6 py-2 text-sm font-light text-grey-400">
-              AI Game Studio in Your Pocket
+              Arcade in Your Pocket
             </div>
           </div>
           
