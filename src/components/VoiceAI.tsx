@@ -135,8 +135,8 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
                       <div
                         className={`px-4 py-2 rounded-lg ${
                           message.role === 'user'
-                            ? 'bg-primary text-primary-foreground font-light'
-                            : 'bg-muted text-muted-foreground font-light'
+                            ? 'bg-muted text-accent-foreground font-light'
+                            : 'outline outline-1 outline-muted text-muted-foreground font-light'
                         }`}
                       >
                         {message.message}
