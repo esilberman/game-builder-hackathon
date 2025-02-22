@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Initial from "./pages/Initial";
 import NotFound from "./pages/NotFound";
 import Edit from "./pages/Edit";
+import { GameCodeProvider } from '@/ai/codeContext';
 
 const queryClient = new QueryClient();
 
@@ -14,14 +15,16 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Initial />} />
-          <Route path="/edit" element={<Edit />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <GameCodeProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Initial />} />
+            <Route path="/edit" element={<Edit />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </GameCodeProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

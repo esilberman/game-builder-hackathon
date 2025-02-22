@@ -6,11 +6,13 @@ import VoiceAI from "@/ai/VoiceAI";
 import { useToast } from '@/components/ui/use-toast';
 import { generateAICode } from '@/ai/GameAI';
 import { useNavigate } from 'react-router-dom';
+import { useGameCode } from '@/ai/codeContext';
 
 const Initial = () => {
   const [showAgent, setShowAgent] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { gameCode, setGameCode } = useGameCode();
 
   const handleCreateGame = async (description: string) => {
     if (!description) {
@@ -28,6 +30,9 @@ const Initial = () => {
       if (!response) {
         throw new Error('Failed to generate game');
       }
+
+      // Store the generated game response
+      setGameCode(response.content);
 
       // Navigate to edit page after successful generation
       setShowAgent(false);

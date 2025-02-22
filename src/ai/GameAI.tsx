@@ -10,7 +10,7 @@ interface generateCodeProps {
 }
 
 type AIResult = { 
-    response: string 
+    content: string 
     time: number
 };
 
@@ -95,7 +95,7 @@ export const generateAICode = async (prompt: string): Promise<AIResult> => {
     const executionTime = endTime - startTime;
     console.log('\nCode generation complete after ' + executionTime/1000 + ' sec');
     return {
-        response: accumulatedContent,
+        content: accumulatedContent,
         time: executionTime,
     };
 };

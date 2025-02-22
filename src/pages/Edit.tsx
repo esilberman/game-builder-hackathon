@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Home, Send } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useGameCode } from '@/ai/codeContext';
 
 const Edit = () => {
+  const { gameCode } = useGameCode();
+
   const [input, setInput] = useState("");
 
   const handleSend = () => {
@@ -12,6 +15,10 @@ const Edit = () => {
     // Handle send logic here
     setInput("");
   };
+
+  useEffect(() => {
+    console.log('gameCode: ', gameCode);
+  }, [gameCode]);
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
@@ -27,6 +34,12 @@ const Edit = () => {
       {/* Main Stage */}
       <div className="flex-1 p-4 bg-accent/5">
         {/* Game preview will go here */}
+        {/* Display the generated game code */}
+        {gameCode && 
+            <div className="w-full h-full text-foreground font-light">
+                {gameCode}
+            </div>
+        }
       </div>
 
       {/* Input Area */}
