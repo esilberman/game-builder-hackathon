@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Home, ArrowUp } from "lucide-react";
+import { ChevronLeft, ArrowUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useGameCode } from '@/ai/codeContext';
 
@@ -26,7 +26,7 @@ const Edit = () => {
       <div className="p-2">
         <Link to="/">
           <Button variant="ghost" size="icon" className="hover:bg-accent">
-            <Home className="w-5 h-5" />
+            <ChevronLeft className="w-5 h-5" />
           </Button>
         </Link>
       </div>
