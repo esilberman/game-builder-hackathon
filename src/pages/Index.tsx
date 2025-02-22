@@ -34,7 +34,7 @@ const Index = () => {
           </h1>
           
           <p className="text-m md:text-5xl font-thin text-grey-300 mb-12 mx-auto">
-            Go from idea to playable game in seconds.
+            Idea to playable game in seconds.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
