@@ -2,12 +2,35 @@
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 interface ConvAIWidgetProps {
   onClose: () => void;
 }
 
 const ConvAIWidget = ({ onClose }: ConvAIWidgetProps) => {
+  const agentRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // Start the conversation automatically when the component mounts
+    setTimeout(() => {
+      const agent = document.querySelector('elevenlabs-convai');
+      if (agent) {
+        agentRef.current = agent;
+        // @ts-ignore - startConversation is a custom method from ElevenLabs
+        agent.startConversation();
+      }
+    }, 1000); // Small delay to ensure the agent is properly mounted
+
+    // Cleanup function
+    return () => {
+      if (agentRef.current) {
+        // @ts-ignore - endConversation is a custom method from ElevenLabs
+        agentRef.current.endConversation();
+      }
+    };
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
