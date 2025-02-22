@@ -1,9 +1,11 @@
+
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Conversation } from "@11labs/client";
+import { useToast } from "@/components/ui/use-toast";
 
 interface VoiceAIProps {
   onClose: () => void;
@@ -20,11 +22,13 @@ type Role = 'user' | 'ai';
 const DEBUG = true;
 
 const VoiceAI = ({ onClose }: VoiceAIProps) => {
+  const { toast } = useToast();
   const conversationRef = useRef<Conversation | null>(null);
   const [status, setStatus] = useState<string>("disconnected");
   const [agentStatus, setAgentStatus] = useState<string>("listening");
   const [transcript, setTranscript] = useState<Message[]>([]);
   const [description, setDescription] = useState<string>("");
+  const [isGeneratingGame, setIsGeneratingGame] = useState(false);
 
   useEffect(() => {
     const startConversation = async () => {
@@ -56,10 +60,10 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
             onModeChange: (mode) => {
               setAgentStatus(mode.mode);
             },
-            onMessage: (props: { message: string; source: Role; }) => {
+            onMessage: (props: { message: string; source: "user" | "agent" }) => {
               console.log("Received message:", props);
               setTranscript(prev => [...prev, {
-                role: props.source,
+                role: props.source === "agent" ? "ai" : "user",
                 message: props.message
               }]);
             }
@@ -81,6 +85,54 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
       }
     };
   }, []);
+
+  const handleCreateGame = async () => {
+    if (!description) {
+      toast({
+        title: "Error",
+        description: "No game description available. Please chat with the AI first to define your game.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsGeneratingGame(true);
+    try {
+      const response = await fetch('/functions/generate-game', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ description }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate game');
+      }
+
+      const data = await response.json();
+      
+      // Here you would typically handle the generated game code
+      // For now, we'll just show a success message
+      toast({
+        title: "Success!",
+        description: "Your game has been generated successfully!",
+      });
+
+      // You might want to pass this to a parent component or store it somewhere
+      console.log('Generated game code:', data.gameCode);
+      
+    } catch (error) {
+      console.error('Error generating game:', error);
+      toast({
+        title: "Error",
+        description: "Failed to generate your game. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGeneratingGame(false);
+    }
+  };
 
   return (
     <motion.div
@@ -144,8 +196,10 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
           <Button
             size="xl"
             className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium"
+            onClick={handleCreateGame}
+            disabled={isGeneratingGame}
           >
-            Create Game
+            {isGeneratingGame ? "Generating..." : "Create Game"}
           </Button>
         </div>
       </div>
