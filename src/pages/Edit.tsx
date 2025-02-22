@@ -8,6 +8,9 @@ import { useGameCode } from '@/components/codeContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { generateAICode } from "@/components/GameAI";
 import { useToast } from "@/components/ui/use-toast";
+import example from "@/data/example.json";
+
+const DEBUG = true;
 
 const Edit = () => {
   const { gameCode, setGameCode } = useGameCode();
@@ -15,6 +18,12 @@ const Edit = () => {
   const [tab, setTab] = useState("game");
   const [code, setCode] = useState("");
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (DEBUG) {
+      setGameCode(example.code);
+    }
+  }, []);
 
   const handleSend = async () => {
     if (!input.trim()) return;
