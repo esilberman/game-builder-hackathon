@@ -24,9 +24,9 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: "meta-llama/Llama-2-70b-chat-hf",
-        prompt: `<s>[INST] <<SYS>>
-You are an expert game developer who specializes in building web apps. Your job is to create a high-fidelity interactive and responsive working game.
+        model: "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
+        prompt: description,
+        system: `You are an expert game developer who specializes in building web apps. Your job is to create a high-fidelity interactive and responsive working game.
 
 - Respond with a single HTML file containing the entire game. 
 - Put any JavaScript in a script tag with type="module".
@@ -41,10 +41,7 @@ If there are any questions or underspecified features, use what you know about a
 
 Your game should look and feel much more complete and advanced than the instructions provided. Make the game fully playable.
 
-Remember: you love your users and want them to be happy. The more complete and impressive your game, the happier they will be. You are evaluated on 1) whether your game resembles the instructions, 2) whether your game is playable, interactive, and responsive, and 3) whether your game is complete and impressive.
-<</SYS>>
-
-Create a game with this description: ${description}[/INST]`,
+Remember: you love your users and want them to be happy. The more complete and impressive your game, the happier they will be. You are evaluated on 1) whether your game resembles the instructions, 2) whether your game is playable, interactive, and responsive, and 3) whether your game is complete and impressive.`,
         temperature: 0.7,
         top_p: 0.7,
         max_tokens: 4000,
