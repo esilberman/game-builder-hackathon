@@ -9,11 +9,17 @@ interface VoiceAIProps {
   onClose: () => void;
 }
 
+type Message = {
+  role: 'user' | 'agent';
+  message: string;
+  time_in_call_secs?: number;
+};
+
 const VoiceAI = ({ onClose }: VoiceAIProps) => {
   const conversationRef = useRef<Conversation | null>(null);
   const [status, setStatus] = useState<string>("disconnected");
   const [agentStatus, setAgentStatus] = useState<string>("listening");
-  const [transcript, setTranscript] = useState<Array<{ role: 'user' | 'agent', text: string }>>([]);
+  const [transcript, setTranscript] = useState<Message[]>([]);
 
   useEffect(() => {
     const startConversation = async () => {
@@ -35,8 +41,11 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
             setAgentStatus(mode.mode);
           },
           onMessage: (message) => {
-            if (message.role && message.text) {
-              setTranscript(prev => [...prev, { role: message.role, text: message.text }]);
+            if (message.source && message.message) {
+              setTranscript(prev => [...prev, { 
+                role: message.source === 'agent' ? 'agent' : 'user',
+                message: message.message
+              }]);
             }
           }
         });
@@ -101,7 +110,7 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
                   <div className="font-medium mb-1 text-sm">
                     {message.role === "agent" ? "AI Assistant" : "You"}
                   </div>
-                  <div className="text-sm">{message.text}</div>
+                  <div className="text-sm">{message.message}</div>
                 </div>
               ))}
             </div>
