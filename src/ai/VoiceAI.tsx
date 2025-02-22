@@ -1,4 +1,3 @@
-
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -6,6 +5,8 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Conversation } from "@11labs/client";
 import { useToast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
+import { generateAICode } from "./GameAI";
 
 interface VoiceAIProps {
   onClose: () => void;
@@ -22,6 +23,7 @@ type Role = 'user' | 'ai';
 const DEBUG = true;
 
 const VoiceAI = ({ onClose }: VoiceAIProps) => {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const conversationRef = useRef<Conversation | null>(null);
   const [status, setStatus] = useState<string>("disconnected");
@@ -98,30 +100,15 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
 
     setIsGeneratingGame(true);
     try {
-      const response = await fetch('/functions/generate-game', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ description }),
-      });
+      const response = await generateAICode(description, setIsGeneratingGame);
 
-      if (!response.ok) {
+      if (!response) {
         throw new Error('Failed to generate game');
       }
 
-      const data = await response.json();
-      
-      // Here you would typically handle the generated game code
-      // For now, we'll just show a success message
-      toast({
-        title: "Success!",
-        description: "Your game has been generated successfully!",
-      });
-
-      // You might want to pass this to a parent component or store it somewhere
-      console.log('Generated game code:', data.gameCode);
-      
+      // Navigate to edit page after successful generation
+      onClose();
+      navigate('/edit');
     } catch (error) {
       console.error('Error generating game:', error);
       toast({

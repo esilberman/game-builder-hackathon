@@ -14,7 +14,7 @@ type AIResult = {
     time: number
 };
 
-const TOGETHER_API_KEY = process.env.VITE_TOGETHER_API_KEY;
+const TOGETHER_API_KEY = import.meta.env.VITE_TOGETHER_API_KEY;
 const model = "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free";
 
 const systemPrompt = `You are an expert game developer who specializes in building web apps. Your job is to create a high-fidelity interactive and responsive working game.
@@ -34,29 +34,24 @@ Your game should look and feel much more complete and advanced than the instruct
 
 Remember: you love your users and want them to be happy. The more complete and impressive your game, the happier they will be. You are evaluated on 1) whether your game resembles the instructions, 2) whether your game is playable, interactive, and responsive, and 3) whether your game is complete and impressive.`;
 
-export const generateAICode = async ({ prompt }: generateCodeProps): Promise<AIResult> => {
+export const generateAICode = async (prompt: string): Promise<AIResult> => {
     const startTime = Date.now();
-    const [isStreaming, setIsStreaming] = useState<boolean>(false);
-    const [streamContent, setStreamContent] = useState<string>('');
-    
+
     if (!TOGETHER_API_KEY) {
         console.error('No API key provided for Together.ai');
         return;
     }
 
     const together = new Together({ apiKey: TOGETHER_API_KEY });
-    
     console.log('Initialized Together.ai provider with:', {
         model: model,
         hasApiKey: !!TOGETHER_API_KEY,
     });
 
     const id = crypto.randomUUID();
-    const userPrompt = prompt;
-    
     console.log('Sending code generation request:', {
         id,
-        prompt: userPrompt,
+        prompt: prompt,
         system: systemPrompt,
     });
 
@@ -68,37 +63,33 @@ export const generateAICode = async ({ prompt }: generateCodeProps): Promise<AIR
         },
         { 
             role: 'user', 
-            content: userPrompt,
+            content: prompt,
         }],
         stream: true,
         max_tokens: 4000,
         temperature: 0.7,
     });
-        
+
     let accumulatedContent = '';
-    
-    if (setIsStreaming) {
-        setIsStreaming(true);
-    }
-    
+    let isStreaming = true;
+    let streamContent = '';
+
     for await (const chunk of stream) {
         const content = chunk.choices[0]?.delta?.content || '';
         accumulatedContent += content;
-        
+
         // Update streaming content if context is available
-        if (setStreamContent && content) {
-            setStreamContent(accumulatedContent);
+        if (content) {
+            streamContent = accumulatedContent;
         }
-        
+
         // Log stream chunks in browser environment
         if (content) {
             console.log(content);
         }
     }
 
-    if (setIsStreaming) {
-        setIsStreaming(false);
-    }
+    isStreaming = false;
 
     const endTime = Date.now();
     const executionTime = endTime - startTime;
