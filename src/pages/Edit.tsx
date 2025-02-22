@@ -22,9 +22,9 @@ const Edit = () => {
   }, [gameCode]);
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
+    <div className="h-screen bg-background text-foreground flex flex-col">
       {/* Top Bar */}
-      <div className="flex flex-row align-center justify-between p-2">
+      <div className="fixed top-0 w-screen flex flex-row align-center justify-between p-2">
         <Link to="/">
           <Button variant="ghost" size="icon" className="hover:bg-accent">
             <ChevronLeft className="w-5 h-5" />
@@ -42,7 +42,7 @@ const Edit = () => {
       </div>
 
       {/* Main Stage */}
-      <div className="main-stage flex-1 p-2">
+      <div className="main-stage flex-1 max-w-screen overflow-y-auto">
           {tab === "game" ? (
               <iframe
                 srcDoc={gameCode}
@@ -58,7 +58,7 @@ const Edit = () => {
       </div>
 
       {/* Input Area */}
-      <div className="p-2 flex gap-2">
+      <div className="input-area fixed bottom-0 w-full p-2 flex gap-2 bg-black">
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
