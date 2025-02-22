@@ -43,7 +43,7 @@ const VoiceAI = ({ onClose, onCreateGame }: VoiceAIProps) => {
             { role: 'ai', message: "Awesome choice, my dude! \"Gravity Flip\" it is! Let's flesh this bad boy out and make it pop. I'm stoked to help you design this gravity-defying masterpiece! So, let's break it down:..." },
           ]);
 
-          setDescription("A platformer where you can only jump and flip gravity. The player navigates through levels by switching between floor and ceiling.");
+          setDescription("A snake game with a retro style.");
         } else {
           await navigator.mediaDevices.getUserMedia({ audio: true });
 

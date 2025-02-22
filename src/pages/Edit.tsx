@@ -7,7 +7,6 @@ import { useGameCode } from '@/ai/codeContext';
 
 const Edit = () => {
   const { gameCode } = useGameCode();
-
   const [input, setInput] = useState("");
 
   const handleSend = () => {
