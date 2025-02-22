@@ -68,14 +68,14 @@ const Edit = () => {
       <div className="main-stage flex-1 max-w-screen p-2">
           {tab === "game" ? (
               <iframe
-                srcDoc={gameCode}
+                srcDoc={code}
                 className="w-full h-full rounded-sm border border-accent/20"
                 title="Game"
                 sandbox="allow-scripts allow-same-origin"
               />
           ) : (
               <div className="w-full h-full text-foreground font-light overflow-y-scroll">
-                {gameCode}
+                {code}
               </div>
            )}
       </div>
