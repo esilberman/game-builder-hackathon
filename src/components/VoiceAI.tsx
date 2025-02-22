@@ -13,14 +13,13 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
   const conversationRef = useRef<Conversation | null>(null);
   const [status, setStatus] = useState<string>("disconnected");
   const [agentStatus, setAgentStatus] = useState<string>("listening");
+  const [transcript, setTranscript] = useState<Array<{ role: 'user' | 'agent', text: string }>>([]);
 
   useEffect(() => {
     const startConversation = async () => {
       try {
-        // Request microphone permission
         await navigator.mediaDevices.getUserMedia({ audio: true });
 
-        // Start the conversation
         const conversation = await Conversation.startSession({
           agentId: "8MFPKeCEf8q2bVQWbIJS",
           onConnect: () => {
@@ -35,6 +34,11 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
           onModeChange: (mode) => {
             setAgentStatus(mode.mode);
           },
+          onMessage: (message) => {
+            if (message.role && message.text) {
+              setTranscript(prev => [...prev, { role: message.role, text: message.text }]);
+            }
+          }
         });
 
         conversationRef.current = conversation;
@@ -45,7 +49,6 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
 
     startConversation();
 
-    // Cleanup function
     return () => {
       if (conversationRef.current) {
         conversationRef.current.endSession();
@@ -59,46 +62,61 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
+      className="fixed inset-0 bg-background z-50"
     >
-      <div className="absolute inset-0 flex items-center justify-center p-4">
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.1 }}
-          className="relative w-full max-w-3xl bg-background rounded-2xl shadow-2xl p-6"
-        >
+      <div className="absolute inset-0 flex flex-col h-full p-4">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-4">
           <Button
             variant="ghost"
             size="icon"
-            className="absolute right-4 top-4 z-10"
             onClick={onClose}
+            className="hover:bg-accent"
           >
-            <X className="w-5 h-5" />
+            <X className="w-6 h-6" />
           </Button>
-
-          <div className="space-y-4">
-            <div className="flex items-center justify-between text-sm">
-              <p>Status: {status}</p>
-              <p>Agent: {agentStatus}</p>
-            </div>
-            
-            <div className="aspect-video bg-muted rounded-lg overflow-hidden">
-              {/* This will be your chat interface or visualization */}
-              <div className="h-full flex items-center justify-center text-muted-foreground">
-                {status === "connected" ? (
-                  agentStatus === "speaking" ? (
-                    "AI is speaking..."
-                  ) : (
-                    "Listening..."
-                  )
-                ) : (
-                  "Connecting..."
-                )}
-              </div>
-            </div>
+          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <span>Status: {status}</span>
+            <span>Mode: {agentStatus}</span>
           </div>
-        </motion.div>
+        </div>
+
+        {/* Transcript Area */}
+        <div className="flex-1 overflow-y-auto bg-accent/5 rounded-lg p-6 mb-4">
+          {transcript.length === 0 ? (
+            <div className="flex items-center justify-center h-full text-muted-foreground">
+              Start speaking to create your game...
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {transcript.map((message, index) => (
+                <div
+                  key={index}
+                  className={`p-4 rounded-lg ${
+                    message.role === "agent"
+                      ? "bg-accent/10 ml-8"
+                      : "bg-primary/10 mr-8"
+                  }`}
+                >
+                  <div className="font-medium mb-1 text-sm">
+                    {message.role === "agent" ? "AI Assistant" : "You"}
+                  </div>
+                  <div className="text-sm">{message.text}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Footer with Create Game Button */}
+        <div className="flex justify-center pb-4">
+          <Button
+            size="lg"
+            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+          >
+            Create Game
+          </Button>
+        </div>
       </div>
     </motion.div>
   );
