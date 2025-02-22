@@ -7,12 +7,26 @@ import { useToast } from '@/components/ui/use-toast';
 import { generateAICode } from '@/components/GameAI';
 import { useNavigate } from 'react-router-dom';
 import { useGameCode } from '@/components/codeContext';
+import { Input } from "@/components/ui/input";
+import { ArrowUp } from "lucide-react";
+
+const VOICE_INPUT = false;
 
 const Initial = () => {
   const [showAgent, setShowAgent] = useState(false);
+  const [showInput, setShowInput] = useState(false);
+  const [input, setInput] = useState("");
   const { toast } = useToast();
   const navigate = useNavigate();
   const { gameCode, setGameCode } = useGameCode();
+
+  const onCreateClick = () => {
+    if (VOICE_INPUT) {
+      setShowAgent(true);
+    } else {
+      setShowInput(true);
+    }
+  };
 
   const handleCreateGame = async (description: string) => {
     if (!description) {
@@ -76,10 +90,31 @@ const Initial = () => {
             Idea to playable game in seconds.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="xl" onClick={() => setShowAgent(true)} className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white py-6 px-8 rounded-xl transition-all duration-200 transform hover:scale-105 flex items-center gap-2 font-medium">
-              <Plus className="w-5 h-5" />
-              Create Game
-            </Button>
+            {!showInput && (
+              <Button size="xl" onClick={() => onCreateClick()} className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white py-6 px-8 rounded-xl transition-all duration-200 transform hover:scale-105 flex items-center gap-2 font-medium">
+                <Plus className="w-5 h-5" />
+                Create Game
+              </Button>
+            )}
+            {showInput && (
+              <div className="input-area w-full max-w-3xl p-2 flex gap-2">
+                <Input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Create a game..."
+                  className="flex-1 h-auto"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      handleCreateGame(input);
+                    }
+                  }}
+                />
+                <Button onClick={() => handleCreateGame(input)}>
+                  <ArrowUp className="w-5 h-5" />
+                </Button>
+              </div>
+            )}
           
           </div>
         </motion.div>
