@@ -100,7 +100,7 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
 
     setIsGeneratingGame(true);
     try {
-      const response = await generateAICode(description, setIsGeneratingGame);
+      const response = await generateAICode(description);
 
       if (!response) {
         throw new Error('Failed to generate game');
