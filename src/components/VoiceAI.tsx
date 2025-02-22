@@ -60,10 +60,10 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
             onModeChange: (mode) => {
               setAgentStatus(mode.mode);
             },
-            onMessage: (props: { message: string; source: "user" | "agent" }) => {
+            onMessage: (props: { message: string; source: Role; }) => {
               console.log("Received message:", props);
               setTranscript(prev => [...prev, {
-                role: props.source === "agent" ? "ai" : "user",
+                role: props.source,
                 message: props.message
               }]);
             }
