@@ -9,12 +9,12 @@ interface VoiceAIProps {
 }
 
 type Message = {
-  role: 'user' | 'agent';
+  role: 'user' | 'ai';
   message: string;
   time_in_call_secs?: number;
 };
 
-type Role = 'user' | 'agent';
+type Role = 'user' | 'ai';
 
 const VoiceAI = ({ onClose }: VoiceAIProps) => {
   const conversationRef = useRef<Conversation | null>(null);
@@ -101,16 +101,19 @@ const VoiceAI = ({ onClose }: VoiceAIProps) => {
               {transcript.map((message, index) => (
                 <div
                   key={index}
-                  className={`p-4 rounded-lg ${
-                    message.role === "agent"
-                      ? "bg-accent/10 ml-8"
-                      : "bg-primary/10 mr-8"
+                  className={`flex flex-col ${
+                    message.role === 'user' ? 'items-end' : 'items-start'
                   }`}
                 >
-                  <div className="font-medium mb-1 text-sm">
-                    {message.role === "agent" ? "AI Assistant" : "You"}
+                  <div
+                    className={`px-4 py-2 rounded-lg ${
+                      message.role === 'user'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted'
+                    }`}
+                  >
+                    {message.message}
                   </div>
-                  <div className="text-sm">{message.message}</div>
                 </div>
               ))}
             </div>
