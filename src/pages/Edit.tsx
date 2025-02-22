@@ -75,7 +75,7 @@ const Edit = () => {
               />
           ) : (
               <div className="w-full h-full text-foreground font-light overflow-y-scroll">
-                {code}
+                <pre className="pre-wrap break-all p-2">{code}</pre>
               </div>
            )}
       </div>
