@@ -5,11 +5,11 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Conversation } from "@11labs/client";
 
-interface ConvAIWidgetProps {
+interface VoiceAIProps {
   onClose: () => void;
 }
 
-const ConvAIWidget = ({ onClose }: ConvAIWidgetProps) => {
+const VoiceAI = ({ onClose }: VoiceAIProps) => {
   const conversationRef = useRef<Conversation | null>(null);
   const [status, setStatus] = useState<string>("disconnected");
   const [agentStatus, setAgentStatus] = useState<string>("listening");
@@ -104,4 +104,4 @@ const ConvAIWidget = ({ onClose }: ConvAIWidgetProps) => {
   );
 };
 
-export default ConvAIWidget;
+export default VoiceAI;

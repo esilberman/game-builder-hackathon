@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Gamepad2, Wand2, Plus } from "lucide-react";
-import ConvAIWidget from "@/components/ConvAIWidget";
+import ConvAIWidget from "@/components/VoiceAI";
 const Index = () => {
   const [showAgent, setShowAgent] = useState(false);
   return <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
