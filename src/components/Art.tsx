@@ -15,11 +15,11 @@ export const Art = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-between">
+    <div className="w-full h-full flex flex-col justify-between overflow-hidden">
       {/* Main content area with two panels */}
-      <div className="flex flex-row flex-grow gap-2 p-4">
+      <div className="flex flex-row gap-2 p-4 max-w-full max-h-full min-w-0 min-h-0 overflow-hidden items-center justify-center mt-auto mb-auto">
         {/* Left panel - Excalidraw */}
-        <div className="flex-1 aspect-square rounded-sm">
+        <div className="flex-1 aspect-square rounded-sm min-w-0 min-h-0">
           <Excalidraw 
             theme="light" 
             excalidrawAPI={(api)=> setExcalidrawAPI(api)}
@@ -39,7 +39,7 @@ export const Art = () => {
         </div>
 
         {/* Right panel - Canvas */}
-        <div className="flex-1 aspect-square">
+        <div className="flex-1 aspect-square min-w-0 min-h-0">
           <canvas
             ref={rightCanvasRef}
             className="w-full h-full bg-muted-foreground rounded-sm border border-accent/20"
