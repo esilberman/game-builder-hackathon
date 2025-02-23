@@ -21,7 +21,7 @@ const Edit = () => {
   const { toast } = useToast();
   const [iframeKey, setIframeKey] = useState(0);
   const [userPng, setUserPng] = useState("");
-  const [aiImage, setAiImage] = useState("http://localhost:8080/a5e42d44-a4d4-4135-8c0a-ca612cd7ee61.png");
+  const [aiImage, setAiImage] = useState("");
 
   useEffect(() => {
     if (DEBUG) {
@@ -178,6 +178,7 @@ const Edit = () => {
                 console.log('Art input:', input);
                 console.log('Generated PNG URL:', userPng);
                 setUserPng(userPng);
+                setAiImage(userPng);
               }} aiImage={aiImage} />
            )}
       </div>
@@ -203,9 +204,9 @@ const Edit = () => {
           </div>
         )}
         {userPng && (
-            <div className="p-4 border rounded-lg">
-                <h3 className="mb-2 font-medium">Exported Drawing:</h3>
+            <div className="flex flex-row p-4 border gap-4">
                 <img src={userPng} alt="Exported drawing" className="max-w-full" />
+                <img src={aiImage} alt="AI drawing" className="max-w-full" />
             </div>
         )}
     </div>

@@ -220,7 +220,7 @@ export const Art = ({ onExport, aiImage }: ArtProps) => {
             ref={rightCanvasRef}
             className="w-full h-full bg-muted-foreground border border-accent/20"
           >
-            {aiImage && <img src={aiImage} height="100%" width="100%" />}
+            <img src={aiImage} alt="AI drawing" className="max-w-full" />
           </canvas>
         </div>
       </div>
