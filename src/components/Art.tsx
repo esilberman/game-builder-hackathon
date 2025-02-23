@@ -38,7 +38,6 @@ export const Art = ({  }: ArtProps) => {
   const [input, setInput] = useState<string>('');
   const [userPng, setUserPng] = useState<string>('');
   const [aiImage, setAiImage] = useState<string>('');
-  const [size, setSize] = useState<number>(400);
 
   useEffect(() => { 
     initializeImageAI();
@@ -153,7 +152,6 @@ export const Art = ({  }: ArtProps) => {
       const width = Math.round(viewDimensions.width);
       const height = Math.round(viewDimensions.height);
       console.log('Exporting with dimensions:', { width, height });
-      setSize(Math.max(width, height));
 
       const blob = await exportToBlob({
         elements,
@@ -213,7 +211,7 @@ export const Art = ({  }: ArtProps) => {
     //     req: {
     //         text: input,
     //         image: imgUrl,
-    //         img_size: size,
+    //         img_size: 400,
     //     },
     // }).then(response => {
     //     setAiImage(response.url);
