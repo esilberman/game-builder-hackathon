@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,7 @@ import { generateAICode } from "@/components/CodeAI";
 import { useToast } from "@/components/ui/use-toast";
 import example from "@/data/example.json";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Art } from "@/components/Art";
 
 const DEBUG = false;
 
@@ -138,9 +140,7 @@ const Edit = () => {
                 <pre className="pre-wrap break-all p-2">{code}</pre>
               </div>
            ) : (
-            <div className="w-full h-full text-foreground font-light">
-              Art Placeholder
-            </div>
+            <Art />
            )}
       </div>
 
