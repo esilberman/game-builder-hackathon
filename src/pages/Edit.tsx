@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,6 +18,7 @@ const Edit = () => {
   const [tab, setTab] = useState("game");
   const [code, setCode] = useState("");
   const { toast } = useToast();
+  const [iframeKey, setIframeKey] = useState(0);
 
   useEffect(() => {
     if (DEBUG) {
@@ -90,6 +90,13 @@ const Edit = () => {
     return extractedCode;
   };
 
+  const refreshIframe = () => {
+    const iframe = document.getElementById('game-iframe') as HTMLIFrameElement;
+    if (iframe) {
+      setIframeKey(prevKey => prevKey + 1);
+    }
+  };
+
   return (
     <div className="h-screen bg-background text-foreground flex flex-col">
       {/* Top Bar */}
@@ -106,7 +113,7 @@ const Edit = () => {
               <TabsTrigger value="art" onClick={() => setTab('art')}>Art</TabsTrigger>
             </TabsList>
         </Tabs>
-        <Button variant="ghost" size="icon" className="hover:bg-accent">
+        <Button variant="ghost" size="icon" className="hover:bg-accent" onClick={refreshIframe}>
             <RefreshCw className="w-5 h-5" />
         </Button>
       </div>
@@ -116,6 +123,8 @@ const Edit = () => {
           {tab === "game" ? (
             code ? (
               <iframe
+                id="game-iframe"
+                key={iframeKey}
                 srcDoc={code}
                 className="w-full h-full rounded-sm border border-accent/20"
                 title="Game"
