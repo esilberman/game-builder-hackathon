@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { Canvas as FabricCanvas } from "fabric";
 
@@ -20,7 +19,7 @@ export const Art = () => {
     const left = new FabricCanvas(leftCanvasRef.current, {
       width: canvasSize,
       height: canvasSize,
-      backgroundColor: "#1a1a1a",
+      backgroundColor: "white",
       selection: true,
     });
     setLeftCanvas(left);
@@ -29,7 +28,7 @@ export const Art = () => {
     const right = new FabricCanvas(rightCanvasRef.current, {
       width: canvasSize,
       height: canvasSize,
-      backgroundColor: "#1a1a1a",
+      backgroundColor: "white",
       selection: true,
     });
     setRightCanvas(right);
@@ -49,7 +48,7 @@ export const Art = () => {
             ref={leftCanvasRef}
             className="rounded-lg border border-accent/20"
           />
-          <div className="absolute bottom-2 left-2 text-xs text-muted-foreground">
+          <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground">
             Source
           </div>
         </div>
@@ -58,7 +57,7 @@ export const Art = () => {
             ref={rightCanvasRef}
             className="rounded-lg border border-accent/20"
           />
-          <div className="absolute bottom-2 left-2 text-xs text-muted-foreground">
+          <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground">
             Generated
           </div>
         </div>
