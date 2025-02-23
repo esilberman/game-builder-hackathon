@@ -3,6 +3,7 @@ import { fal } from "@fal-ai/client";
 type AIRequest = {
     text: string;
     image: string;
+    img_size: number;
 }
 
 interface generateImageProps {
@@ -93,6 +94,7 @@ export const generateAIImage = async ({ req }: generateImageProps): Promise<AIRe
                 id,
                 prompt,
                 hasImage: !!req.image,
+                img_size: req.img_size,
             });
 
             await connection.send({
@@ -100,8 +102,8 @@ export const generateAIImage = async ({ req }: generateImageProps): Promise<AIRe
                 negative_prompt: negativePrompt,
                 image_url: req.image,
                 image_size: {
-                    width: 512,
-                    height: 512,
+                    width: req.img_size,
+                    height: req.img_size,
                 },
                 num_images: 1,
                 sync_mode: true,
