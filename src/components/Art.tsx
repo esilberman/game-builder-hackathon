@@ -117,39 +117,44 @@ export const Art = () => {
       </div>
 
       {/* Bottom Toolbar */}
-      <div className="bottom-toolbar bg-secondary flex flex-row p-2 gap-2 justify-center align-end rounded-sm ml-auto mr-auto">
-        <Button
-          variant={activeTool === "select" ? "default" : "ghost"}
-          size="icon"
-          onClick={() => handleToolClick("select")}
-          className="hover:bg-accent"
-        >
-          <MousePointer className="w-5 h-5" />
-        </Button>
-        <Button
-          variant={activeTool === "draw-path" ? "default" : "ghost"}
-          size="icon"
-          onClick={() => handleToolClick("draw-path")}
-          className="hover:bg-accent"
-        >
-          <Pen className="w-5 h-5" />
-        </Button>
-        <Button
-          variant={activeTool === "draw-fill" ? "default" : "ghost"}
-          size="icon"
-          onClick={() => handleToolClick("draw-fill")}
-          className="hover:bg-accent"
-        >
-          <PaintBucket className="w-5 h-5" />
-        </Button>
-        <Button
-          variant={activeTool === "image" ? "default" : "ghost"}
-          size="icon"
-          onClick={() => handleToolClick("image")}
-          className="hover:bg-accent"
-        >
-          <Image className="w-5 h-5" />
-        </Button>
+      <div className="bottom-toolbar flex flex-row p-2 gap-2 justify-center align-end ml-auto mr-auto">
+        <div className="bg-secondary flex flex-row p-2 gap-2 justify-center align-center rounded-sm">
+          <Button
+            variant={activeTool === "select" ? "default" : "ghost"}
+            size="icon"
+            onClick={() => handleToolClick("select")}
+            className="hover:bg-accent"
+          >
+            <MousePointer className="w-5 h-5" />
+          </Button>
+          <Button
+            variant={activeTool === "draw-path" ? "default" : "ghost"}
+            size="icon"
+            onClick={() => handleToolClick("draw-path")}
+            className="hover:bg-accent"
+          >
+            <Pen className="w-5 h-5" />
+          </Button>
+          {/* <Button
+            variant={activeTool === "draw-fill" ? "default" : "ghost"}
+            size="icon"
+            onClick={() => handleToolClick("draw-fill")}
+            className="hover:bg-accent"
+          >
+            <PaintBucket className="w-5 h-5" />
+          </Button> */}
+          <Button
+            variant={activeTool === "image" ? "default" : "ghost"}
+            size="icon"
+            onClick={() => handleToolClick("image")}
+            className="hover:bg-accent"
+          >
+            <Image className="w-5 h-5" />
+          </Button>
+        </div>
+        <div className="bg-secondary flex flex-row p-2 gap-2 justify-center align-center rounded-sm">
+          
+        </div>
       </div>
     </div>
   );
