@@ -3,7 +3,6 @@ import { fal } from "@fal-ai/client";
 type AIRequest = {
     text: string;
     image: string;
-    image_size: number;
 }
 
 interface generateImageProps {
@@ -17,10 +16,10 @@ const FAL_AI_API_KEY = import.meta.env.VITE_FAL_AI_API_KEY;
 const AUTO_GENERATE_IMAGE_TIMEOUT = 10000;
 const model = "fal-ai/fast-turbo-diffusion/image-to-image";
 
-export const initializeImageAI = (apiKey: string) => {
+export const initializeImageAI = () => {
     if (!isConfigured) {
         fal.config({
-            credentials: apiKey
+            credentials: FAL_AI_API_KEY
         });
         console.log('Initialized Fal.ai provider');
         isConfigured = true;
@@ -41,7 +40,7 @@ export const generateAIImage = async ({ req }: generateImageProps): Promise<AIRe
         });
 
         // Configure fal if not already done
-        if (!isConfigured) initializeImageAI(FAL_AI_API_KEY);
+        if (!isConfigured) initializeImageAI();
 
         const id = crypto.randomUUID();
         let timer: ReturnType<typeof setTimeout>;
@@ -89,7 +88,6 @@ export const generateAIImage = async ({ req }: generateImageProps): Promise<AIRe
                 id,
                 prompt,
                 hasImage: !!req.image,
-                imageSize: req.image_size
             });
 
             await connection.send({
@@ -97,8 +95,8 @@ export const generateAIImage = async ({ req }: generateImageProps): Promise<AIRe
                 negative_prompt: negativePrompt,
                 image_url: req.image,
                 image_size: {
-                    width: req.image_size,
-                    height: req.image_size,
+                    width: 512,
+                    height: 512,
                 },
                 num_images: 1,
                 sync_mode: true,
