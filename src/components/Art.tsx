@@ -23,7 +23,7 @@ const colors = {
   darkBrown: '#5D4037',
 };
 
-const thickness = [1, 2, 4, 10];
+const thickness = [1, 2, 5, 10];
 
 interface ArtProps {
   onExport?: (userPng: string, input: string) => void;
@@ -198,7 +198,6 @@ export const Art = ({ onExport, aiImage }: ArtProps) => {
           <Excalidraw 
             theme="light" 
             excalidrawAPI={(api)=> setExcalidrawAPI(api)}
-            // viewModeEnabled={true}
             UIOptions={{
               canvasActions: {
                 changeViewBackgroundColor: false,
@@ -277,7 +276,7 @@ export const Art = ({ onExport, aiImage }: ArtProps) => {
                 onClick={() => handleThicknessClick(thicknessVal)}
                 className="hover:bg-accent"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={thicknessVal} strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={thicknessVal*3} strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/></svg>
               </Button>
             ))}
           </div>
