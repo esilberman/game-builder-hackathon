@@ -1,6 +1,5 @@
-
 import { useEffect, useRef, useState } from "react";
-import { Canvas as FabricCanvas, PencilBrush, Image as FabricImage } from "fabric";
+import { Canvas as FabricCanvas, PencilBrush, FabricImage } from "fabric"; // Don't touch the facric image import - it is correct already
 import { Button } from "@/components/ui/button";
 import { MousePointer, Pen, PaintBucket, Image } from "lucide-react";
 
@@ -9,13 +8,15 @@ type Tool = "select" | "draw-stroke" | "draw-fill" | "image";
 export const Art = () => {
   const leftCanvasRef = useRef<HTMLCanvasElement>(null);
   const rightCanvasRef = useRef<HTMLCanvasElement>(null);
-  const [leftCanvas, setLeftCanvas] = useState<FabricCanvas | null>(null);
-  const [rightCanvas, setRightCanvas] = useState<FabricCanvas | null>(null);
+  const leftFabricRef = useRef<FabricCanvas | null>(null);
+  const rightFabricRef = useRef<FabricCanvas | null>(null);
   const [activeTool, setActiveTool] = useState<Tool>("select");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Initialize canvas only once
   useEffect(() => {
     if (!leftCanvasRef.current || !rightCanvasRef.current) return;
+    if (leftFabricRef.current || rightFabricRef.current) return;
 
     const canvasSize = Math.min(
       window.innerWidth / 2.5,
@@ -24,63 +25,60 @@ export const Art = () => {
 
     // Initialize left canvas
     const left = new FabricCanvas(leftCanvasRef.current, {
+      isDrawingMode: false,
       width: canvasSize,
       height: canvasSize,
-      backgroundColor: "white",
-      selection: true,
-      isDrawingMode: false,
+      backgroundColor: 'white'
     });
+    leftFabricRef.current = left;
 
     // Initialize PencilBrush
     const pencilBrush = new PencilBrush(left);
-    pencilBrush.color = "#000000";
     pencilBrush.width = 2;
+    pencilBrush.color = '#000000';
     left.freeDrawingBrush = pencilBrush;
-
-    // Add event listener for path creation
-    left.on('path:created', function(e) {
-      left.renderAll();
-    });
-
-    setLeftCanvas(left);
 
     // Initialize right canvas
     const right = new FabricCanvas(rightCanvasRef.current, {
+      isDrawingMode: false,
       width: canvasSize,
       height: canvasSize,
-      backgroundColor: "#a1a1aa",
-      selection: true,
+      backgroundColor: '#a1a1aa'
     });
-    setRightCanvas(right);
+    rightFabricRef.current = right;
 
-    // Cleanup
+    // Cleanup function
     return () => {
-      left.dispose();
-      right.dispose();
+      if (leftFabricRef.current) {
+        leftFabricRef.current.dispose();
+        leftFabricRef.current = null;
+      }
+      if (rightFabricRef.current) {
+        rightFabricRef.current.dispose();
+        rightFabricRef.current = null;
+      }
     };
   }, []);
 
+  // Handle tool changes
   useEffect(() => {
-    if (!leftCanvas) return;
+    const canvas = leftFabricRef.current;
+    if (!canvas) return;
 
-    // Configure canvas based on selected tool
-    leftCanvas.isDrawingMode = activeTool.startsWith("draw");
-    
-    if (activeTool === "draw-stroke") {
-      if (leftCanvas.freeDrawingBrush) {
-        leftCanvas.freeDrawingBrush.color = "#000000";
-        leftCanvas.freeDrawingBrush.width = 2;
+    canvas.isDrawingMode = activeTool.startsWith("draw");
+    console.log('isDrawingMode:', canvas.isDrawingMode);
+
+    if (canvas.isDrawingMode) {
+      if (activeTool === "draw-stroke") {
+        canvas.freeDrawingBrush.width = 2;
+      } else if (activeTool === "draw-fill") {
+        canvas.freeDrawingBrush.width = 20;
       }
-    } else if (activeTool === "draw-fill") {
-      if (leftCanvas.freeDrawingBrush) {
-        leftCanvas.freeDrawingBrush.color = "#000000";
-        leftCanvas.freeDrawingBrush.width = 20;
-      }
+      canvas.freeDrawingBrush.color = '#000000';
     }
 
-    // Ensure the cursor style matches the current tool
-    leftCanvas.defaultCursor = activeTool === "select" ? "default" : "crosshair";
-  }, [activeTool, leftCanvas]);
+    // canvas.renderAll();
+  }, [activeTool]);
 
   const handleToolClick = (tool: Tool) => {
     setActiveTool(tool);
@@ -92,36 +90,41 @@ export const Art = () => {
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file || !leftCanvas) return;
+    if (!file || !leftFabricRef.current) return;
 
     const reader = new FileReader();
     reader.onload = (e) => {
       const imgData = e.target?.result as string;
       if (!imgData) return;
 
-      FabricImage.fromURL(imgData, (img) => {
-        if (!img) return;
+      FabricImage.fromURL(imgData, { crossOrigin: 'anonymous' }, (img: FabricImage, error: string) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
 
-        const canvasWidth = leftCanvas.width / 2 || 0;
-        const canvasHeight = leftCanvas.height / 2 || 0;
+        const canvas = leftFabricRef.current;
+        if (!canvas) return;
+
+        const canvasWidth = canvas.width / 2 || 0;
+        const canvasHeight = canvas.height / 2 || 0;
         const scale = Math.min(
           (canvasWidth * 0.8) / (img.width || 1),
           (canvasHeight * 0.8) / (img.height || 1)
         );
         img.scale(scale);
 
-        // Center the image manually
         img.set({
           left: (canvasWidth - (img.width || 0) * scale) / 2,
           top: (canvasHeight - (img.height || 0) * scale) / 2
         });
 
-        leftCanvas.add(img);
-        leftCanvas.renderAll();
+        canvas.add(img);
+        // canvas.renderAll();
       });
     };
     reader.readAsDataURL(file);
-    event.target.value = ''; // Reset input
+    event.target.value = '';
   };
 
   return (
