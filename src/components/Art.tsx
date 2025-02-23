@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Canvas as FabricCanvas, PencilBrush } from "fabric";
+import { Canvas as FabricCanvas, PencilBrush, FabricImage } from "fabric";
 import { Button } from "@/components/ui/button";
 import { MousePointer, Pen, PaintBucket, Image } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
 
 type Tool = "select" | "draw-stroke" | "draw-fill" | "image";
 
@@ -13,7 +12,6 @@ export const Art = () => {
   const [rightCanvas, setRightCanvas] = useState<FabricCanvas | null>(null);
   const [activeTool, setActiveTool] = useState<Tool>("select");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { toast } = useToast();
 
   useEffect(() => {
     if (!leftCanvasRef.current || !rightCanvasRef.current) return;
@@ -67,10 +65,6 @@ export const Art = () => {
         leftCanvas.freeDrawingBrush.color = "#000000";
         leftCanvas.freeDrawingBrush.width = 2;
       }
-      toast({
-        title: "Pencil tool selected",
-        description: "Click and drag to draw on the canvas",
-      });
     } else if (activeTool === "draw-fill") {
       if (leftCanvas.freeDrawingBrush) {
         leftCanvas.freeDrawingBrush.color = "#000000";
@@ -121,10 +115,6 @@ export const Art = () => {
 
         leftCanvas.add(img);
         leftCanvas.renderAll();
-        toast({
-          title: "Image uploaded",
-          description: "The image has been added to the canvas",
-        });
       });
     };
     reader.readAsDataURL(file);
