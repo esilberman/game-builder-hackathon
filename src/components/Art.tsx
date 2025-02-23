@@ -35,9 +35,9 @@ export const Art = ({  }: ArtProps) => {
   const [activeTool, setActiveTool] = useState("select");
   const [selectedColor, setSelectedColor] = useState("black");
   const [selectedThickness, setSelectedThickness] = useState(2);
-  const [input, setInput] = useState('');
-  const [userPng, setUserPng] = useState('');
-  const [aiImage, setAiImage] = useState('');
+  const [input, setInput] = useState<string>('');
+  const [userPng, setUserPng] = useState<string>('');
+  const [aiImage, setAiImage] = useState<string>('');
 
   useEffect(() => { 
     initializeImageAI();
@@ -192,7 +192,7 @@ export const Art = ({  }: ArtProps) => {
   const handleGenerateAIArt = async () => {
     const imgUrl = await exportPng();
 
-    if (!input || !imgUrl) {
+    if (input === '' || imgUrl === '') {
       console.warn('Missing required element - description: ', input, 'image: ', imgUrl);
       return;
     }
