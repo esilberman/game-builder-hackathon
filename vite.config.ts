@@ -19,4 +19,8 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  define: {
+    // Fix for Excalidraw "process is not defined" error
+    "process.env.IS_PREACT": JSON.stringify("false"),
+  },
 }));
