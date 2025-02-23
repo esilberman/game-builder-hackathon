@@ -137,14 +137,14 @@ export const Art = ({  }: ArtProps) => {
     }
   }, [activeTool, excalidrawAPI]);
 
-  const exportPng = async () => {
-    if (!excalidrawAPI) return;
+  const exportPng = async (): Promise<string> => {
+    if (!excalidrawAPI) return '';
     
     try {
       const elements = excalidrawAPI.getSceneElements();
       if (!elements || !elements.length) {
         console.log('No elements to export');
-        return;
+        return '';
       }
 
       const blob = await exportToBlob({
@@ -159,15 +159,18 @@ export const Art = ({  }: ArtProps) => {
       console.log('userPng Blob: ', blob);
       
       const reader = new FileReader();
-      reader.onload = () => {
-        const dataUrl = reader.result as string;
-        setUserPng(dataUrl);
-        console.log('userPng URL: ', dataUrl);
-        return dataUrl;
-      };
-      reader.readAsDataURL(blob);
+      return new Promise((resolve) => {
+        reader.onload = () => {
+          const dataUrl = reader.result as string;
+          setUserPng(dataUrl);
+          console.log('userPng URL: ', dataUrl);
+          resolve(dataUrl);
+        };
+        reader.readAsDataURL(blob);
+      });
     } catch (error) {
       console.error('Error exporting PNG:', error);
+      return '';
     }
   };
 
