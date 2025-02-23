@@ -1,6 +1,5 @@
-
 import { useEffect, useRef, useState } from "react";
-import { Canvas as FabricCanvas } from "fabric";
+import { Canvas as FabricCanvas, FabricImage, FabricObject } from "fabric";
 import { Button } from "@/components/ui/button";
 import { MousePointer, Pen, PaintBucket, Image } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
@@ -81,18 +80,26 @@ export const Art = () => {
       const imgData = e.target?.result as string;
       if (!imgData) return;
 
-      fabric.Image.fromURL(imgData, (img) => {
-        // Scale image to fit within canvas while maintaining aspect ratio
-        const canvasWidth = leftCanvas.width || 0;
-        const canvasHeight = leftCanvas.height || 0;
+      FabricImage.fromURL(imgData, { crossOrigin: 'anonymous' }, (img: FabricImage, error: string) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+
+        const canvasWidth = leftCanvas.width / 2 || 0;
+        const canvasHeight = leftCanvas.height / 2 || 0;
         const scale = Math.min(
-          (canvasWidth * 0.8) / img.width!,
-          (canvasHeight * 0.8) / img.height!
+          (canvasWidth * 0.8) / img.width,
+          (canvasHeight * 0.8) / img.height
         );
-        
         img.scale(scale);
-        img.centerH();
-        img.centerV();
+
+        // Center the image manually
+        img.set({
+          left: (canvasWidth - img.width * scale) / 2,
+          top: (canvasHeight - img.height * scale) / 2
+        });
+
         leftCanvas.add(img);
         leftCanvas.renderAll();
         toast({
@@ -128,7 +135,7 @@ export const Art = () => {
       </div>
     
       {/* Bottom Toolbar */}
-      <div className="input-area bottom-0 w-full p-2 flex justify-center gap-2 bg-black">
+      <div className="absolute input-area bottom-0 w-full p-2 flex gap-2 bg-black justify-center justify-items-center">
         <Button
           variant={activeTool === "select" ? "default" : "ghost"}
           size="icon"
