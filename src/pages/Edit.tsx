@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChevronLeft, ArrowUp, RefreshCw, Sparkles } from "lucide-react";
+import { ChevronLeft, ArrowUp, RefreshCw } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useGameCode } from '@/components/codeContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,7 +10,6 @@ import { useToast } from "@/components/ui/use-toast";
 import example from "@/data/example.json";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Art } from "@/components/Art";
-import { initializeImageAI, generateAIImage } from "@/components/ImageAI";
 
 const DEBUG = false;
 
@@ -21,37 +20,12 @@ const Edit = () => {
   const [code, setCode] = useState("");
   const { toast } = useToast();
   const [iframeKey, setIframeKey] = useState(0);
-  const [userPng, setUserPng] = useState("");
-  const [aiImage, setAiImage] = useState("");
-  const [artInput, setArtInput] = useState("");
-
-  useEffect(() => { 
-    initializeImageAI();
-  }, []);
 
   useEffect(() => {
     if (DEBUG) {
       setGameCode(example.code);
     }
   }, []);
-
-  useEffect(() => {
-    return () => {
-      // Cleanup blob URL when component unmounts
-      if (userPng.startsWith('blob:')) {
-        URL.revokeObjectURL(userPng);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    // Cleanup previous blob URL when new one is generated
-    return () => {
-      if (userPng.startsWith('blob:')) {
-        URL.revokeObjectURL(userPng);
-      }
-    };
-  }, [userPng]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -124,20 +98,6 @@ const Edit = () => {
     }
   };
 
-  const handleGenerateAIArt = async () => {
-    const handleExportUserPng = () => {
-        // Find the Art component instance and call its exportPng function
-        const artComponent = document.querySelector('.excalidraw');
-        if (artComponent) {
-          // This will trigger the onExport callback in Art component
-          artComponent.dispatchEvent(new Event('exportPng'));
-        }
-      };
-
-    await handleExportUserPng();
-    console.log('generateAIArt with description: ', artInput, 'image: ', userPng);
-  };
-
   return (
     <div className="h-screen bg-background text-foreground flex flex-col">
       {/* Top Bar */}
@@ -159,9 +119,7 @@ const Edit = () => {
                 <RefreshCw className="w-5 h-5" />
             </Button>
         ) : (
-            <Button size="sm" onClick={handleGenerateAIArt} className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl transition-all duration-200 transform hover:scale-105 flex items-center gap-2 font-medium">
-                <Sparkles className="w-5 h-5" />
-            </Button>
+            <div></div>
         )}
       </div>
 
@@ -185,13 +143,7 @@ const Edit = () => {
                 <pre className="pre-wrap break-all p-2">{code}</pre>
               </div>
            ) : (
-              <Art onExport={(userPng, input) => {
-                console.log('Art input:', input);
-                console.log('Generated PNG URL:', userPng);
-                setUserPng(userPng);
-                setArtInput(input);
-                // setAiImage(userPng);
-              }} aiImage={aiImage} />
+              <Art />
            )}
       </div>
 
@@ -214,12 +166,6 @@ const Edit = () => {
                 <ArrowUp className="w-5 h-5" />
             </Button>
           </div>
-        )}
-        {userPng && (
-            <div className="flex flex-row p-4 border gap-4">
-                <img src={userPng} alt="Exported drawing" className="max-w-full" />
-                <img src={aiImage} alt="AI drawing" className="max-w-full" />
-            </div>
         )}
     </div>
   );

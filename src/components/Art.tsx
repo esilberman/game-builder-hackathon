@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Excalidraw, exportToBlob } from "@excalidraw/excalidraw";
 import { Button } from "@/components/ui/button";
-import { MousePointer, Pen, PaintBucket, Image } from "lucide-react";
+import { MousePointer, Pen, PaintBucket, Image, Sparkles } from "lucide-react";
 import { Input } from "./ui/input";
+import { initializeImageAI, generateAIImage } from "@/components/ImageAI";
 
 type Tool = "select" | "draw-path" | "draw-fill" | "image";
 
@@ -26,16 +27,21 @@ const colors = {
 const thickness = [1, 2, 5, 10];
 
 interface ArtProps {
-  onExport?: (userPng: string, input: string) => void;
-  aiImage: string;
+
 }
 
-export const Art = ({ onExport, aiImage }: ArtProps) => {
+export const Art = ({  }: ArtProps) => {
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
   const [activeTool, setActiveTool] = useState("select");
   const [selectedColor, setSelectedColor] = useState("black");
   const [selectedThickness, setSelectedThickness] = useState(2);
   const [input, setInput] = useState('');
+  const [userPng, setUserPng] = useState('');
+  const [aiImage, setAiImage] = useState('');
+
+  useEffect(() => { 
+    initializeImageAI();
+  }, []);
 
   const handleToolClick = (tool: Tool) => {
     setActiveTool(tool);
@@ -131,51 +137,57 @@ export const Art = ({ onExport, aiImage }: ArtProps) => {
     }
   }, [activeTool, excalidrawAPI]);
 
-  useEffect(() => {
-    const exportPng = async () => {
-      if (!excalidrawAPI) return;
-      
-      try {
-        const elements = excalidrawAPI.getSceneElements();
-        if (!elements || !elements.length) {
-          console.log('No elements to export');
-          return;
-        }
+  const exportPng = async () => {
+    if (!excalidrawAPI) return;
+    
+    try {
+      const elements = excalidrawAPI.getSceneElements();
+      if (!elements || !elements.length) {
+        console.log('No elements to export');
+        return;
+      }
 
-        const blob = await exportToBlob({
-          elements,
-          appState: {
-            exportWithDarkMode: false,
-          },
-          files: excalidrawAPI.getFiles(),
-          getDimensions: () => ({ width: 400, height: 400 }),
-          mimeType: "image/png",
-        });
-        console.log('userPng Blob: ', blob);
-        
-        const url = URL.createObjectURL(blob);
-        console.log('userPng URL: ', url);
-        if (onExport) {
-          console.log('input in art', input);
-          onExport(url, input);
-        }
-      } catch (error) {
-        console.error('Error exporting PNG:', error);
+      const blob = await exportToBlob({
+        elements,
+        appState: {
+          exportWithDarkMode: false,
+        },
+        files: excalidrawAPI.getFiles(),
+        getDimensions: () => ({ width: 400, height: 400 }),
+        mimeType: "image/png",
+      });
+      console.log('userPng Blob: ', blob);
+      
+      const url = URL.createObjectURL(blob);
+      console.log('userPng URL: ', url);
+      setUserPng(url);
+    } catch (error) {
+      console.error('Error exporting PNG:', error);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      // Cleanup blob URL when component unmounts
+      if (userPng.startsWith('blob:')) {
+        URL.revokeObjectURL(userPng);
       }
     };
+  }, []);
 
-    const handleExportPngEvent = () => {
-      exportPng();
+  useEffect(() => {
+    // Cleanup previous blob URL when new one is generated
+    return () => {
+      if (userPng.startsWith('blob:')) {
+        URL.revokeObjectURL(userPng);
+      }
     };
+  }, [userPng]);
 
-    const excalidrawElement = document.querySelector('.excalidraw');
-    if (excalidrawElement) {
-      excalidrawElement.addEventListener('exportPng', handleExportPngEvent);
-      return () => {
-        excalidrawElement.removeEventListener('exportPng', handleExportPngEvent);
-      };
-    }
-  }, [excalidrawAPI, input, onExport]);
+  const handleGenerateAIArt = async () => {
+    await exportPng();
+    console.log('generateAIArt with description: ', input, 'image: ', userPng);
+  };
 
   useEffect(() => {
     console.log('ai image: ', aiImage);
@@ -183,6 +195,11 @@ export const Art = ({ onExport, aiImage }: ArtProps) => {
 
   return (
     <div className="w-full h-full flex flex-col justify-between overflow-hidden">
+      <div className="absolute top-2 right-2">
+        <Button size="sm" onClick={handleGenerateAIArt} className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl transition-all duration-200 transform hover:scale-105 flex items-center gap-2 font-medium">
+            <Sparkles className="w-5 h-5" />
+        </Button>
+      </div>
       {/* Main content area with two panels */}
       <div className="input-area p-4 flex gap-2 w-fit-content">
         <Input
@@ -282,6 +299,13 @@ export const Art = ({ onExport, aiImage }: ArtProps) => {
           </div>
         </div>
       </div>
+
+      {(userPng || aiImage) && (
+          <div className="flex flex-row p-4 border gap-4">
+              <img src={userPng} alt="Exported drawing" className="max-w-full" />
+              <img src={aiImage} alt="AI drawing" className="max-w-full" />
+          </div>
+      )}
     </div>
   );
 };
