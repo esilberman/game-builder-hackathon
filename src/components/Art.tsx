@@ -23,6 +23,24 @@ export const Art = () => {
           customType: null,
           locked: false,
         });
+      } else if (tool === 'draw-fill') {
+        // For fill tool, use freedraw with fill settings
+        excalidrawAPI.setActiveTool({ 
+          type: "freedraw",
+          customType: "fill",
+          locked: false,
+        });
+        // Configure the fill settings
+        excalidrawAPI.updateScene({
+          appState: {
+            currentItemFillStyle: "solid",
+            currentItemStrokeStyle: "solid",
+            currentItemStrokeWidth: 2,
+            currentItemRoughness: 0,
+            currentItemOpacity: 100,
+            currentItemBackgroundColor: excalidrawAPI.getAppState().currentItemStrokeColor,
+          }
+        });
       } else if (tool === 'image') {
         excalidrawAPI.setActiveTool({ type: "image" });
       }
@@ -40,6 +58,24 @@ export const Art = () => {
           type: "freedraw",
           customType: null,
           locked: false,
+        });
+      } else if (activeTool === 'draw-fill') {
+        // For fill tool, use freedraw with fill settings
+        excalidrawAPI.setActiveTool({ 
+          type: "freedraw",
+          customType: "fill",
+          locked: false,
+        });
+        // Configure the fill settings
+        excalidrawAPI.updateScene({
+          appState: {
+            currentItemFillStyle: "solid",
+            currentItemStrokeStyle: "solid",
+            currentItemStrokeWidth: 2,
+            currentItemRoughness: 0,
+            currentItemOpacity: 100,
+            currentItemBackgroundColor: excalidrawAPI.getAppState().currentItemStrokeColor,
+          }
         });
       } else if (activeTool === 'image') {
         excalidrawAPI.setActiveTool({ type: "image" });
