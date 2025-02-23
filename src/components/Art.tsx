@@ -130,7 +130,7 @@ export const Art = () => {
   return (
     <div className="w-full h-full flex flex-col justify-between overflow-hidden">
       {/* Main content area with two panels */}
-      <div className="input-area p-4 flex gap-2">
+      <div className="input-area p-4 flex gap-2 w-fit-content">
         <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
