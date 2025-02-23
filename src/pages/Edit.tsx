@@ -148,7 +148,7 @@ const Edit = () => {
       </div>
 
       {/* Bottom Toolbar */}
-      {(tab === "game" || tab === "code") ? (
+      {(tab === "game" || tab === "code") && (
           <div className="input-area bottom-0 w-full p-2 flex gap-2 bg-black">
             <Input
                 value={input}
@@ -166,11 +166,7 @@ const Edit = () => {
                 <ArrowUp className="w-5 h-5" />
             </Button>
           </div>
-        ) : (tab === "art") ? (
-          <div className="input-area bottom-0 w-full p-2 flex gap-2 bg-black">
-            
-          </div>
-        ) : null}
+        )}
     </div>
   );
 };

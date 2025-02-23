@@ -42,11 +42,15 @@ export const Art = () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
+
+      {/* Main Stage */}
       <div className="flex gap-4 p-4">
+      <div className="input-area bottom-0 w-full p-2 flex gap-2 bg-black">
+      </div>
         <div className="relative">
           <canvas
             ref={leftCanvasRef}
-            className="rounded-lg border border-accent/20"
+            className="bg-white rounded-sm border border-accent/20"
           />
           <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground">
             Source
@@ -55,12 +59,16 @@ export const Art = () => {
         <div className="relative">
           <canvas
             ref={rightCanvasRef}
-            className="rounded-lg border border-accent/20"
+            className="bg-whiterounded-sm border border-accent/20"
           />
           <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground">
             Generated
           </div>
         </div>
+      </div>
+
+      {/* Bottom Toolbar */}
+      <div className="input-area bottom-0 w-full p-2 flex gap-2 bg-black">
       </div>
     </div>
   );
