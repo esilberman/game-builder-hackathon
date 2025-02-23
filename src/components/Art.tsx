@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Canvas as FabricCanvas, FabricImage, FabricObject } from "fabric";
+import { Canvas as FabricCanvas, PencilBrush } from "fabric";
 import { Button } from "@/components/ui/button";
 import { MousePointer, Pen, PaintBucket, Image } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
@@ -29,7 +29,15 @@ export const Art = () => {
       height: canvasSize,
       backgroundColor: "white",
       selection: true,
+      isDrawingMode: false,
     });
+
+    // Initialize PencilBrush
+    const pencilBrush = new PencilBrush(left);
+    pencilBrush.color = "#000000";
+    pencilBrush.width = 2;
+    left.freeDrawingBrush = pencilBrush;
+
     setLeftCanvas(left);
 
     // Initialize right canvas
@@ -55,12 +63,23 @@ export const Art = () => {
     leftCanvas.isDrawingMode = activeTool.startsWith("draw");
     
     if (activeTool === "draw-stroke") {
-      leftCanvas.freeDrawingBrush.color = "#000000";
-      leftCanvas.freeDrawingBrush.width = 2;
+      if (leftCanvas.freeDrawingBrush) {
+        leftCanvas.freeDrawingBrush.color = "#000000";
+        leftCanvas.freeDrawingBrush.width = 2;
+      }
+      toast({
+        title: "Pencil tool selected",
+        description: "Click and drag to draw on the canvas",
+      });
     } else if (activeTool === "draw-fill") {
-      leftCanvas.freeDrawingBrush.color = "#000000";
-      leftCanvas.freeDrawingBrush.width = 20;
+      if (leftCanvas.freeDrawingBrush) {
+        leftCanvas.freeDrawingBrush.color = "#000000";
+        leftCanvas.freeDrawingBrush.width = 20;
+      }
     }
+
+    // Ensure the cursor style matches the current tool
+    leftCanvas.defaultCursor = activeTool === "select" ? "default" : "crosshair";
   }, [activeTool, leftCanvas]);
 
   const handleToolClick = (tool: Tool) => {
