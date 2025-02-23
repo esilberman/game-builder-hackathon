@@ -59,7 +59,7 @@ export const Art = () => {
         <div className="relative">
           <canvas
             ref={rightCanvasRef}
-            className="bg-whiterounded-sm border border-accent/20"
+            className="bg-muted-foreground rounded-sm border border-accent/20"
           />
           <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground">
             Generated
