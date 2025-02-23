@@ -21,7 +21,7 @@ const Edit = () => {
   const { toast } = useToast();
   const [iframeKey, setIframeKey] = useState(0);
   const [userPng, setUserPng] = useState("");
-  const [aiPng, setAIPng] = useState("");
+  const [aiImage, setAiImage] = useState("http://localhost:8080/a5e42d44-a4d4-4135-8c0a-ca612cd7ee61.png");
 
   useEffect(() => {
     if (DEBUG) {
@@ -178,7 +178,7 @@ const Edit = () => {
                 console.log('Art input:', input);
                 console.log('Generated PNG URL:', userPng);
                 setUserPng(userPng);
-              }} />
+              }} aiImage={aiImage} />
            )}
       </div>
 

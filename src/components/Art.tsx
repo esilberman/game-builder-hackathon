@@ -27,9 +27,10 @@ const thickness = [1, 2, 4, 10];
 
 interface ArtProps {
   onExport?: (userPng: string, input: string) => void;
+  aiImage: string;
 }
 
-export const Art = ({ onExport }: ArtProps) => {
+export const Art = ({ onExport, aiImage }: ArtProps) => {
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
   const [activeTool, setActiveTool] = useState("select");
   const [selectedColor, setSelectedColor] = useState("black");
@@ -177,6 +178,10 @@ export const Art = ({ onExport }: ArtProps) => {
     }
   }, [excalidrawAPI, input, onExport]);
 
+  useEffect(() => {
+    console.log('ai image: ', aiImage);
+  }, [aiImage]);
+
   return (
     <div className="w-full h-full flex flex-col justify-between overflow-hidden">
       {/* Main content area with two panels */}
@@ -214,7 +219,9 @@ export const Art = ({ onExport }: ArtProps) => {
           <canvas
             ref={rightCanvasRef}
             className="w-full h-full bg-muted-foreground border border-accent/20"
-          />
+          >
+            {aiImage && <img src={aiImage} height="100%" width="100%" />}
+          </canvas>
         </div>
       </div>
 
