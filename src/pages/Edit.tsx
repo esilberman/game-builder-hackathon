@@ -147,6 +147,7 @@ const Edit = () => {
            )}
       </div>
 
+      {/* Bottom Toolbar */}
       {(tab === "game" || tab === "code") ? (
           <div className="input-area bottom-0 w-full p-2 flex gap-2 bg-black">
             <Input
