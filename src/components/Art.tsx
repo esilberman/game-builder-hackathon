@@ -28,7 +28,7 @@ export const Art = () => {
     const right = new FabricCanvas(rightCanvasRef.current, {
       width: canvasSize,
       height: canvasSize,
-      backgroundColor: "white",
+      backgroundColor: "#a1a1aa",
       selection: true,
     });
     setRightCanvas(right);
