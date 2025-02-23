@@ -20,6 +20,8 @@ const Edit = () => {
   const [code, setCode] = useState("");
   const { toast } = useToast();
   const [iframeKey, setIframeKey] = useState(0);
+  const [userPng, setUserPng] = useState("");
+  const [aiPng, setAIPng] = useState("");
 
   useEffect(() => {
     if (DEBUG) {

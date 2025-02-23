@@ -131,6 +131,16 @@ export const Art = ({  }: ArtProps) => {
     }
   }, [activeTool, excalidrawAPI]);
 
+  const exportPng = () => {
+    excalidrawAPI.exportToBlob({
+      mimeType: "image/png",
+      type: "png",
+      quality: 1,
+    }).then((blob) => {
+      console.log('userPng: ', blob);
+    });
+  };
+
   return (
     <div className="w-full h-full flex flex-col justify-between overflow-hidden">
       {/* Main content area with two panels */}
