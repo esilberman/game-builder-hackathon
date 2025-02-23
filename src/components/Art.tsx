@@ -52,7 +52,7 @@ export const Art = () => {
       {/* Main content area with two panels */}
       <div className="flex flex-row gap-2 p-4 max-w-full max-h-full min-w-0 min-h-0 overflow-hidden items-center justify-center mt-auto mb-auto">
         {/* Left panel - Excalidraw */}
-        <div className="flex-1 aspect-square rounded-sm min-w-0 min-h-0">
+        <div className="flex-1 aspect-square min-w-0 min-h-0">
           <Excalidraw 
             theme="light" 
             excalidrawAPI={(api)=> setExcalidrawAPI(api)}
@@ -75,13 +75,13 @@ export const Art = () => {
         <div className="flex-1 aspect-square min-w-0 min-h-0">
           <canvas
             ref={rightCanvasRef}
-            className="w-full h-full bg-muted-foreground rounded-sm border border-accent/20"
+            className="w-full h-full bg-muted-foreground border border-accent/20"
           />
         </div>
       </div>
 
       {/* Bottom Toolbar */}
-      <div className="input-area p-2 flex gap-2 bg-black justify-center justify-items-center">
+      <div className="bottom-toolbar bg-secondary flex flex-row p-2 gap-2 justify-center align-end rounded-sm ml-auto mr-auto">
         <Button
           variant={activeTool === "select" ? "default" : "ghost"}
           size="icon"
