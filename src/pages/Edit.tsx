@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronLeft, ArrowUp, RefreshCw, Sparkles } from "lucide-react";
@@ -10,6 +10,7 @@ import { useToast } from "@/components/ui/use-toast";
 import example from "@/data/example.json";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Art } from "@/components/Art";
+import { initializeImageAI, generateAIImage } from "@/components/ImageAI";
 
 const DEBUG = false;
 
@@ -22,6 +23,11 @@ const Edit = () => {
   const [iframeKey, setIframeKey] = useState(0);
   const [userPng, setUserPng] = useState("");
   const [aiImage, setAiImage] = useState("");
+  const [artInput, setArtInput] = useState("");
+
+  useEffect(() => { 
+    initializeImageAI();
+  }, []);
 
   useEffect(() => {
     if (DEBUG) {
@@ -118,13 +124,18 @@ const Edit = () => {
     }
   };
 
-  const handleGenerateAIArt = () => {
-    // Find the Art component instance and call its exportPng function
-    const artComponent = document.querySelector('.excalidraw');
-    if (artComponent) {
-      // This will trigger the onExport callback in Art component
-      artComponent.dispatchEvent(new Event('exportPng'));
-    }
+  const handleGenerateAIArt = async () => {
+    const handleExportUserPng = () => {
+        // Find the Art component instance and call its exportPng function
+        const artComponent = document.querySelector('.excalidraw');
+        if (artComponent) {
+          // This will trigger the onExport callback in Art component
+          artComponent.dispatchEvent(new Event('exportPng'));
+        }
+      };
+
+    await handleExportUserPng();
+    console.log('generateAIArt with description: ', artInput, 'image: ', userPng);
   };
 
   return (
@@ -178,7 +189,8 @@ const Edit = () => {
                 console.log('Art input:', input);
                 console.log('Generated PNG URL:', userPng);
                 setUserPng(userPng);
-                setAiImage(userPng);
+                setArtInput(input);
+                // setAiImage(userPng);
               }} aiImage={aiImage} />
            )}
       </div>
