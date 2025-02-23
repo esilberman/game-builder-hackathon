@@ -18,6 +18,11 @@ const model = "fal-ai/fast-turbo-diffusion/image-to-image";
 
 export const initializeImageAI = () => {
     if (!isConfigured) {
+        console.log('Initializing Fal.ai provider with:', {
+            model: model,
+            hasApiKey: !!FAL_AI_API_KEY,
+        });
+
         fal.config({
             credentials: FAL_AI_API_KEY
         });

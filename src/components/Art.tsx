@@ -187,6 +187,7 @@ export const Art = ({  }: ArtProps) => {
 
   const handleGenerateAIArt = async () => {
     const imgUrl = await exportPng();
+    
     console.log('generateAIArt with description: ', input, 'image: ', imgUrl);
   };
 
