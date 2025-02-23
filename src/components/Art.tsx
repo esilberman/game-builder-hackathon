@@ -31,7 +31,7 @@ const thickness = {
 
 export const Art = () => {
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
-  const [activeTool, setActiveTool] = useState("select");
+  const [activeTool, setActiveTool] = useState("draw-path");
   const [selectedColor, setSelectedColor] = useState("black");
   const [selectedThickness, setSelectedThickness] = useState("sm");
   const rightCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -75,10 +75,21 @@ export const Art = () => {
 
   const handleColorClick = (color: string) => {
     setSelectedColor(color);
+    excalidrawAPI.updateScene({
+      appState: {
+        currentItemStrokeColor: color,
+        currentItemFillColor: color,
+      }
+    });
   };
 
   const handleThicknessClick = (thickness: string) => {
     setSelectedThickness(thickness);
+    excalidrawAPI.updateScene({
+      appState: {
+        currentItemStrokeWidth: thickness,
+      }
+    });
   };
 
   // Update tool whenever activeTool changes
@@ -208,7 +219,7 @@ export const Art = () => {
                 onClick={() => handleThicknessClick(thicknessName)}
                 className="hover:bg-accent"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width={thicknessVal} stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus"><path d="M5 12h14"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={thicknessVal} strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/></svg>
               </Button>
             ))}
           </div>
