@@ -23,7 +23,7 @@ export const Art = () => {
           <Excalidraw 
             theme="light" 
             excalidrawAPI={(api)=> setExcalidrawAPI(api)}
-            // viewModeEnabled={true}
+            viewModeEnabled={true}
             UIOptions={{
               canvasActions: {
                 changeViewBackgroundColor: false,

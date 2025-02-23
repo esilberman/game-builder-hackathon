@@ -82,6 +82,7 @@
 }
 
 /* Hide Excalidraw UI elements */
-.excalidraw .layer-ui__wrapper {
+.excalidraw .layer-ui__wrapper, 
+.excalidraw .Island {
   display: none !important;
 }
