@@ -158,10 +158,14 @@ export const Art = ({  }: ArtProps) => {
       });
       console.log('userPng Blob: ', blob);
       
-      const url = URL.createObjectURL(blob);
-      console.log('userPng URL: ', url);
-      await setUserPng(url);
-      return url;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = reader.result as string;
+        setUserPng(dataUrl);
+        console.log('userPng URL: ', dataUrl);
+        return dataUrl;
+      };
+      reader.readAsDataURL(blob);
     } catch (error) {
       console.error('Error exporting PNG:', error);
     }
@@ -229,7 +233,7 @@ export const Art = ({  }: ArtProps) => {
       </div>
       <div className="flex flex-row gap-2 p-4 pt-0 max-w-full max-h-full min-w-0 min-h-0 overflow-hidden items-center justify-center mb-auto">
         {/* Left panel - Excalidraw */}
-        <div className="flex-1 aspect-square min-w-0 min-h-0">
+        <div className="excalidraw-wrapper flex-1 aspect-square min-w-0 min-h-0">
           <Excalidraw 
             theme="light" 
             excalidrawAPI={(api)=> setExcalidrawAPI(api)}
