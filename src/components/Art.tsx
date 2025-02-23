@@ -5,9 +5,35 @@ import { MousePointer, Pen, PaintBucket, Image } from "lucide-react";
 
 type Tool = "select" | "draw-path" | "draw-fill" | "image";
 
+const colors = {
+  black: '#000000',
+  grey: '#7f7f7f',
+  white: '#FFFFFF',
+  red: '#FF4848',
+  orange: '#F99716',
+  yellow: '#ffe640',
+  green: '#4CAF50',
+  aqua: '#20d3e3',
+  blue: '#3867ff',
+  purple: '#8f49f2',
+  pink: '#fc5dba',
+  paleSkin: '#F9DCC4',
+  brown: '#B07D62',
+  darkBrown: '#5D4037',
+};
+
+const thickness = {
+  xs: 1,
+  sm: 2,
+  md: 4,
+  lg: 10,
+};
+
 export const Art = () => {
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
   const [activeTool, setActiveTool] = useState("select");
+  const [selectedColor, setSelectedColor] = useState("black");
+  const [selectedThickness, setSelectedThickness] = useState("sm");
   const rightCanvasRef = useRef<HTMLCanvasElement>(null);
 
   const handleToolClick = (tool: Tool) => {
@@ -45,6 +71,14 @@ export const Art = () => {
         excalidrawAPI.setActiveTool({ type: "image" });
       }
     }
+  };
+
+  const handleColorClick = (color: string) => {
+    setSelectedColor(color);
+  };
+
+  const handleThicknessClick = (thickness: string) => {
+    setSelectedThickness(thickness);
   };
 
   // Update tool whenever activeTool changes
@@ -152,8 +186,32 @@ export const Art = () => {
             <Image className="w-5 h-5" />
           </Button>
         </div>
-        <div className="bg-secondary flex flex-row p-2 gap-2 justify-center align-center rounded-sm">
-          
+        <div className="bg-secondary flex flex-row p-2 gap-4 justify-center align-center rounded-sm m-auto">
+          <div className="grid grid-cols-7 gap-2">
+            {Object.entries(colors).map(([colorName, colorCode]) => (
+              <Button
+                key={colorName}
+                variant={colorName === selectedColor ? "default" : "ghost"}
+                size="xs"
+                onClick={() => handleColorClick(colorName)}
+                className="hover:bg-accent"
+                style={{ backgroundColor: colorCode }}
+              />
+            ))}
+          </div>
+          <div>
+            {Object.entries(thickness).map(([thicknessName, thicknessVal]) => (
+              <Button
+                key={thicknessName}
+                variant={thicknessName === selectedThickness ? "default" : "ghost"}
+                size="sm"
+                onClick={() => handleThicknessClick(thicknessName)}
+                className="hover:bg-accent"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width={thicknessVal} stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus"><path d="M5 12h14"/></svg>
+              </Button>
+            ))}
+          </div>
         </div>
       </div>
     </div>
