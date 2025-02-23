@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Excalidraw } from "@excalidraw/excalidraw";
+import { Excalidraw, exportToBlob } from "@excalidraw/excalidraw";
 import { Button } from "@/components/ui/button";
 import { MousePointer, Pen, PaintBucket, Image } from "lucide-react";
 import { Input } from "./ui/input";
@@ -26,10 +26,10 @@ const colors = {
 const thickness = [1, 2, 4, 10];
 
 interface ArtProps {
-   
+  onExport?: (userPng: string, input: string) => void;
 }
 
-export const Art = ({  }: ArtProps) => {
+export const Art = ({ onExport }: ArtProps) => {
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
   const [activeTool, setActiveTool] = useState("select");
   const [selectedColor, setSelectedColor] = useState("black");
@@ -131,15 +131,50 @@ export const Art = ({  }: ArtProps) => {
     }
   }, [activeTool, excalidrawAPI]);
 
-  const exportPng = () => {
-    excalidrawAPI.exportToBlob({
-      mimeType: "image/png",
-      type: "png",
-      quality: 1,
-    }).then((blob) => {
-      console.log('userPng: ', blob);
-    });
+  const exportPng = async () => {
+    if (!excalidrawAPI) return;
+    
+    try {
+      const elements = excalidrawAPI.getSceneElements();
+      if (!elements || !elements.length) {
+        console.log('No elements to export');
+        return;
+      }
+
+      const blob = await exportToBlob({
+        elements,
+        appState: {
+          exportWithDarkMode: false,
+        },
+        files: excalidrawAPI.getFiles(),
+        getDimensions: () => ({ width: 400, height: 400 }),
+        mimeType: "image/png",
+      });
+      console.log('userPng Blob: ', blob);
+      
+      const url = URL.createObjectURL(blob);
+      console.log('userPng URL: ', url);
+      if (onExport) {
+        onExport(url, input);
+      }
+    } catch (error) {
+      console.error('Error exporting PNG:', error);
+    }
   };
+
+  useEffect(() => {
+    const handleExportPngEvent = () => {
+      exportPng();
+    };
+
+    const excalidrawElement = document.querySelector('.excalidraw');
+    if (excalidrawElement) {
+      excalidrawElement.addEventListener('exportPng', handleExportPngEvent);
+      return () => {
+        excalidrawElement.removeEventListener('exportPng', handleExportPngEvent);
+      };
+    }
+  }, [excalidrawAPI]);
 
   return (
     <div className="w-full h-full flex flex-col justify-between overflow-hidden">

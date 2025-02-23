@@ -29,6 +29,24 @@ const Edit = () => {
     }
   }, []);
 
+  useEffect(() => {
+    return () => {
+      // Cleanup blob URL when component unmounts
+      if (userPng.startsWith('blob:')) {
+        URL.revokeObjectURL(userPng);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    // Cleanup previous blob URL when new one is generated
+    return () => {
+      if (userPng.startsWith('blob:')) {
+        URL.revokeObjectURL(userPng);
+      }
+    };
+  }, [userPng]);
+
   const handleSend = async () => {
     if (!input.trim()) return;
     
@@ -101,7 +119,12 @@ const Edit = () => {
   };
 
   const handleGenerateAIArt = () => {
-    
+    // Find the Art component instance and call its exportPng function
+    const artComponent = document.querySelector('.excalidraw');
+    if (artComponent) {
+      // This will trigger the onExport callback in Art component
+      artComponent.dispatchEvent(new Event('exportPng'));
+    }
   };
 
   return (
@@ -151,7 +174,11 @@ const Edit = () => {
                 <pre className="pre-wrap break-all p-2">{code}</pre>
               </div>
            ) : (
-            <Art />
+              <Art onExport={(userPng, input) => {
+                console.log('Art input:', input);
+                console.log('Generated PNG URL:', userPng);
+                setUserPng(userPng);
+              }} />
            )}
       </div>
 
@@ -174,6 +201,12 @@ const Edit = () => {
                 <ArrowUp className="w-5 h-5" />
             </Button>
           </div>
+        )}
+        {userPng && (
+            <div className="p-4 border rounded-lg">
+                <h3 className="mb-2 font-medium">Exported Drawing:</h3>
+                <img src={userPng} alt="Exported drawing" className="max-w-full" />
+            </div>
         )}
     </div>
   );
