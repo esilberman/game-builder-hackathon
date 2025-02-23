@@ -159,8 +159,8 @@ export const Art = () => {
       </div>
 
       {/* Bottom Toolbar */}
-      <div className="bottom-toolbar flex flex-row p-2 gap-2 justify-center align-end ml-auto mr-auto">
-        <div className="bg-secondary flex flex-row p-2 gap-2 justify-center align-center rounded-sm">
+      <div className="bottom-toolbar flex flex-row p-2 gap-2 justify-between align-end">
+        <div className="bg-secondary flex flex-row p-2 gap-2 justify-center align-center rounded-sm ml-auto mr-auto">
           <Button
             variant={activeTool === "select" ? "default" : "ghost"}
             size="icon"
@@ -194,12 +194,12 @@ export const Art = () => {
             <Image className="w-5 h-5" />
           </Button>
         </div>
-        <div className="bg-secondary flex flex-row p-2 gap-4 justify-center align-center rounded-sm m-auto">
-          <div className="grid grid-cols-7 gap-2">
+        <div className={`bg-secondary flex flex-row p-2 gap-4 justify-center align-center rounded-sm m-auto ${activeTool.startsWith('draw-') ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+          <div className="grid grid-cols-7 gap-1 gap-x-2">
             {Object.entries(colors).map(([colorName, colorCode]) => (
               <Button
                 key={colorName}
-                variant={colorName === selectedColor ? "default" : "ghost"}
+                variant={colorName === selectedColor ? "default" : "outline"}
                 size="xs"
                 onClick={() => handleColorClick(colorName)}
                 className="hover:bg-accent"
@@ -207,7 +207,7 @@ export const Art = () => {
               />
             ))}
           </div>
-          <div>
+          <div className="m-auto">
             {thickness.map((thicknessVal) => (
               <Button
                 key={thicknessVal}
