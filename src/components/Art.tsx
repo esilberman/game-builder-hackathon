@@ -22,18 +22,13 @@ const colors = {
   darkBrown: '#5D4037',
 };
 
-const thickness = {
-  xs: 1,
-  sm: 2,
-  md: 4,
-  lg: 10,
-};
+const thickness = [1, 2, 4, 10];
 
 export const Art = () => {
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
-  const [activeTool, setActiveTool] = useState("draw-path");
+  const [activeTool, setActiveTool] = useState("select");
   const [selectedColor, setSelectedColor] = useState("black");
-  const [selectedThickness, setSelectedThickness] = useState("sm");
+  const [selectedThickness, setSelectedThickness] = useState(2);
   const rightCanvasRef = useRef<HTMLCanvasElement>(null);
 
   const handleToolClick = (tool: Tool) => {
@@ -61,10 +56,10 @@ export const Art = () => {
           appState: {
             currentItemFillStyle: "solid",
             currentItemStrokeStyle: "solid",
-            currentItemStrokeWidth: 2,
+            currentItemStrokeWidth: selectedThickness,
             currentItemRoughness: 0,
             currentItemOpacity: 100,
-            currentItemBackgroundColor: excalidrawAPI.getAppState().currentItemStrokeColor,
+            currentItemBackgroundColor: selectedColor,
           }
         });
       } else if (tool === 'image') {
@@ -75,6 +70,7 @@ export const Art = () => {
 
   const handleColorClick = (color: string) => {
     setSelectedColor(color);
+    console.log('Changing color to:', color);
     excalidrawAPI.updateScene({
       appState: {
         currentItemStrokeColor: color,
@@ -83,8 +79,9 @@ export const Art = () => {
     });
   };
 
-  const handleThicknessClick = (thickness: string) => {
+  const handleThicknessClick = (thickness: number) => {
     setSelectedThickness(thickness);
+    console.log('Changing thickness to:', thickness);
     excalidrawAPI.updateScene({
       appState: {
         currentItemStrokeWidth: thickness,
@@ -116,10 +113,10 @@ export const Art = () => {
           appState: {
             currentItemFillStyle: "solid",
             currentItemStrokeStyle: "solid",
-            currentItemStrokeWidth: 2,
+            currentItemStrokeWidth: selectedThickness,
             currentItemRoughness: 0,
             currentItemOpacity: 100,
-            currentItemBackgroundColor: excalidrawAPI.getAppState().currentItemStrokeColor,
+            currentItemBackgroundColor: selectedColor,
           }
         });
       } else if (activeTool === 'image') {
@@ -211,12 +208,12 @@ export const Art = () => {
             ))}
           </div>
           <div>
-            {Object.entries(thickness).map(([thicknessName, thicknessVal]) => (
+            {thickness.map((thicknessVal) => (
               <Button
-                key={thicknessName}
-                variant={thicknessName === selectedThickness ? "default" : "ghost"}
+                key={thicknessVal}
+                variant={thicknessVal === selectedThickness ? "default" : "ghost"}
                 size="sm"
-                onClick={() => handleThicknessClick(thicknessName)}
+                onClick={() => handleThicknessClick(thicknessVal)}
                 className="hover:bg-accent"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={thicknessVal} strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/></svg>
