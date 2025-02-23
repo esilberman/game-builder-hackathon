@@ -83,6 +83,8 @@
 
 /* Hide Excalidraw UI elements */
 .excalidraw .layer-ui__wrapper, 
-.excalidraw .Island {
+.excalidraw .Island,
+.excalidraw .mobile-misc-tools-container,
+.excalidraw .HintViewer {
   display: none !important;
 }

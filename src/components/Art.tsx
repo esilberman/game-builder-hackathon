@@ -12,7 +12,40 @@ export const Art = () => {
 
   const handleToolClick = (tool: Tool) => {
     setActiveTool(tool);
+    // Update Excalidraw tool based on selection
+    console.log('Changing tool to:', tool);
+    if (excalidrawAPI) {
+      if (tool === 'select') {
+        excalidrawAPI.setActiveTool({ type: "selection" });
+      } else if (tool === 'draw-stroke') {
+        excalidrawAPI.setActiveTool({ 
+          type: "freedraw",
+          customType: null,
+          locked: false,
+        });
+      } else if (tool === 'image') {
+        excalidrawAPI.setActiveTool({ type: "image" });
+      }
+    }
   };
+
+  // Update tool whenever activeTool changes
+  useEffect(() => {
+    console.log('Active tool changed:', activeTool);
+    if (excalidrawAPI) {
+      if (activeTool === 'select') {
+        excalidrawAPI.setActiveTool({ type: "selection" });
+      } else if (activeTool === 'draw-stroke') {
+        excalidrawAPI.setActiveTool({ 
+          type: "freedraw",
+          customType: null,
+          locked: false,
+        });
+      } else if (activeTool === 'image') {
+        excalidrawAPI.setActiveTool({ type: "image" });
+      }
+    }
+  }, [activeTool, excalidrawAPI]);
 
   return (
     <div className="w-full h-full flex flex-col justify-between overflow-hidden">
@@ -23,7 +56,7 @@ export const Art = () => {
           <Excalidraw 
             theme="light" 
             excalidrawAPI={(api)=> setExcalidrawAPI(api)}
-            viewModeEnabled={true}
+            // viewModeEnabled={true}
             UIOptions={{
               canvasActions: {
                 changeViewBackgroundColor: false,
