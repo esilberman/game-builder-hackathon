@@ -3,7 +3,7 @@ import { Excalidraw } from "@excalidraw/excalidraw";
 import { Button } from "@/components/ui/button";
 import { MousePointer, Pen, PaintBucket, Image } from "lucide-react";
 
-type Tool = "select" | "draw-stroke" | "draw-fill" | "image";
+type Tool = "select" | "draw-path" | "draw-fill" | "image";
 
 export const Art = () => {
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
@@ -17,7 +17,7 @@ export const Art = () => {
     if (excalidrawAPI) {
       if (tool === 'select') {
         excalidrawAPI.setActiveTool({ type: "selection" });
-      } else if (tool === 'draw-stroke') {
+      } else if (tool === 'draw-path') {
         excalidrawAPI.setActiveTool({ 
           type: "freedraw",
           customType: null,
@@ -35,7 +35,7 @@ export const Art = () => {
     if (excalidrawAPI) {
       if (activeTool === 'select') {
         excalidrawAPI.setActiveTool({ type: "selection" });
-      } else if (activeTool === 'draw-stroke') {
+      } else if (activeTool === 'draw-path') {
         excalidrawAPI.setActiveTool({ 
           type: "freedraw",
           customType: null,
@@ -91,9 +91,9 @@ export const Art = () => {
           <MousePointer className="w-5 h-5" />
         </Button>
         <Button
-          variant={activeTool === "draw-stroke" ? "default" : "ghost"}
+          variant={activeTool === "draw-path" ? "default" : "ghost"}
           size="icon"
-          onClick={() => handleToolClick("draw-stroke")}
+          onClick={() => handleToolClick("draw-path")}
           className="hover:bg-accent"
         >
           <Pen className="w-5 h-5" />
