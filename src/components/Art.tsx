@@ -1,5 +1,6 @@
+
 import { useEffect, useRef, useState } from "react";
-import { Canvas as FabricCanvas, PencilBrush, FabricImage } from "fabric";
+import { Canvas as FabricCanvas, PencilBrush, Image as FabricImage } from "fabric";
 import { Button } from "@/components/ui/button";
 import { MousePointer, Pen, PaintBucket, Image } from "lucide-react";
 
@@ -35,6 +36,11 @@ export const Art = () => {
     pencilBrush.color = "#000000";
     pencilBrush.width = 2;
     left.freeDrawingBrush = pencilBrush;
+
+    // Add event listener for path creation
+    left.on('path:created', function(e) {
+      left.renderAll();
+    });
 
     setLeftCanvas(left);
 
@@ -93,24 +99,21 @@ export const Art = () => {
       const imgData = e.target?.result as string;
       if (!imgData) return;
 
-      FabricImage.fromURL(imgData, { crossOrigin: 'anonymous' }, (img: FabricImage, error: string) => {
-        if (error) {
-          console.error(error);
-          return;
-        }
+      FabricImage.fromURL(imgData, (img) => {
+        if (!img) return;
 
         const canvasWidth = leftCanvas.width / 2 || 0;
         const canvasHeight = leftCanvas.height / 2 || 0;
         const scale = Math.min(
-          (canvasWidth * 0.8) / img.width,
-          (canvasHeight * 0.8) / img.height
+          (canvasWidth * 0.8) / (img.width || 1),
+          (canvasHeight * 0.8) / (img.height || 1)
         );
         img.scale(scale);
 
         // Center the image manually
         img.set({
-          left: (canvasWidth - img.width * scale) / 2,
-          top: (canvasHeight - img.height * scale) / 2
+          left: (canvasWidth - (img.width || 0) * scale) / 2,
+          top: (canvasHeight - (img.height || 0) * scale) / 2
         });
 
         leftCanvas.add(img);
