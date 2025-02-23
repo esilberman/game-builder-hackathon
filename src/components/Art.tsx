@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Excalidraw } from "@excalidraw/excalidraw";
 import { Button } from "@/components/ui/button";
 import { MousePointer, Pen, PaintBucket, Image } from "lucide-react";
+import { Input } from "./ui/input";
 
 type Tool = "select" | "draw-path" | "draw-fill" | "image";
 
@@ -29,6 +30,7 @@ export const Art = () => {
   const [activeTool, setActiveTool] = useState("select");
   const [selectedColor, setSelectedColor] = useState("black");
   const [selectedThickness, setSelectedThickness] = useState(2);
+  const [input, setInput] = useState('');
   const rightCanvasRef = useRef<HTMLCanvasElement>(null);
 
   const handleToolClick = (tool: Tool) => {
@@ -128,7 +130,15 @@ export const Art = () => {
   return (
     <div className="w-full h-full flex flex-col justify-between overflow-hidden">
       {/* Main content area with two panels */}
-      <div className="flex flex-row gap-2 p-4 max-w-full max-h-full min-w-0 min-h-0 overflow-hidden items-center justify-center mt-auto mb-auto">
+      <div className="input-area p-4 flex gap-2">
+        <Input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Describe your drawing..."
+            className="flex-1 h-auto"
+        />
+      </div>
+      <div className="flex flex-row gap-2 p-4 pt-0 max-w-full max-h-full min-w-0 min-h-0 overflow-hidden items-center justify-center mb-auto">
         {/* Left panel - Excalidraw */}
         <div className="flex-1 aspect-square min-w-0 min-h-0">
           <Excalidraw 
