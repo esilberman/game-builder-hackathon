@@ -131,38 +131,39 @@ export const Art = ({ onExport }: ArtProps) => {
     }
   }, [activeTool, excalidrawAPI]);
 
-  const exportPng = async () => {
-    if (!excalidrawAPI) return;
-    
-    try {
-      const elements = excalidrawAPI.getSceneElements();
-      if (!elements || !elements.length) {
-        console.log('No elements to export');
-        return;
-      }
-
-      const blob = await exportToBlob({
-        elements,
-        appState: {
-          exportWithDarkMode: false,
-        },
-        files: excalidrawAPI.getFiles(),
-        getDimensions: () => ({ width: 400, height: 400 }),
-        mimeType: "image/png",
-      });
-      console.log('userPng Blob: ', blob);
-      
-      const url = URL.createObjectURL(blob);
-      console.log('userPng URL: ', url);
-      if (onExport) {
-        onExport(url, input);
-      }
-    } catch (error) {
-      console.error('Error exporting PNG:', error);
-    }
-  };
-
   useEffect(() => {
+    const exportPng = async () => {
+      if (!excalidrawAPI) return;
+      
+      try {
+        const elements = excalidrawAPI.getSceneElements();
+        if (!elements || !elements.length) {
+          console.log('No elements to export');
+          return;
+        }
+
+        const blob = await exportToBlob({
+          elements,
+          appState: {
+            exportWithDarkMode: false,
+          },
+          files: excalidrawAPI.getFiles(),
+          getDimensions: () => ({ width: 400, height: 400 }),
+          mimeType: "image/png",
+        });
+        console.log('userPng Blob: ', blob);
+        
+        const url = URL.createObjectURL(blob);
+        console.log('userPng URL: ', url);
+        if (onExport) {
+          console.log('input in art', input);
+          onExport(url, input);
+        }
+      } catch (error) {
+        console.error('Error exporting PNG:', error);
+      }
+    };
+
     const handleExportPngEvent = () => {
       exportPng();
     };
@@ -174,7 +175,7 @@ export const Art = ({ onExport }: ArtProps) => {
         excalidrawElement.removeEventListener('exportPng', handleExportPngEvent);
       };
     }
-  }, [excalidrawAPI]);
+  }, [excalidrawAPI, input, onExport]);
 
   return (
     <div className="w-full h-full flex flex-col justify-between overflow-hidden">
