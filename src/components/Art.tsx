@@ -227,6 +227,7 @@ export const Art = ({  }: ArtProps) => {
 
   return (
     <div className="w-full h-full flex flex-col justify-between overflow-hidden">
+      {/* Top Right Button */}
       <div className="absolute top-2 right-2">
         <Button size="sm" onClick={handleGenerateAIArt} className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl transition-all duration-200 transform hover:scale-105 flex items-center gap-2 font-medium">
             <Sparkles className="w-5 h-5" />
