@@ -38,6 +38,7 @@ export const Art = ({  }: ArtProps) => {
   const [input, setInput] = useState<string>('');
   const [userPng, setUserPng] = useState<string>('');
   const [aiImage, setAiImage] = useState<string>('');
+  const [size, setSize] = useState<number>(400);
 
   useEffect(() => { 
     initializeImageAI();
@@ -147,13 +148,20 @@ export const Art = ({  }: ArtProps) => {
         return '';
       }
 
+      // Get the current view dimensions
+      const viewDimensions = excalidrawAPI.getAppState();
+      const width = Math.round(viewDimensions.width);
+      const height = Math.round(viewDimensions.height);
+      console.log('Exporting with dimensions:', { width, height });
+      setSize(Math.max(width, height));
+
       const blob = await exportToBlob({
         elements,
         appState: {
           exportWithDarkMode: false,
         },
         files: excalidrawAPI.getFiles(),
-        getDimensions: () => ({ width: 400, height: 400 }),
+        getDimensions: () => ({ width, height }),
         mimeType: "image/png",
       });
       console.log('userPng Blob: ', blob);
@@ -201,18 +209,18 @@ export const Art = ({  }: ArtProps) => {
     }
     
     console.log('generateAIArt with description: ', input, 'image: ', imgUrl);
-    return generateAIImage({
-        req: {
-            text: input,
-            image: imgUrl,
-            img_size: 400,
-        },
-    }).then(response => {
-        setAiImage(response.url);
-    }).catch(error => {
-        console.error('Image generation failed: ', error);
-        throw error;
-    });
+    // return generateAIImage({
+    //     req: {
+    //         text: input,
+    //         image: imgUrl,
+    //         img_size: size,
+    //     },
+    // }).then(response => {
+    //     setAiImage(response.url);
+    // }).catch(error => {
+    //     console.error('Image generation failed: ', error);
+    //     throw error;
+    // });
   };
 
   useEffect(() => {
