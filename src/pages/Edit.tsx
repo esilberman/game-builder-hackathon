@@ -45,10 +45,10 @@ const Edit = () => {
         // Clear input after successful generation
         setInput("");
         
-        toast({
-          title: "Game updated",
-          description: "Your changes have been applied to the game",
-        });
+        // toast({
+        //   title: "Game updated",
+        //   description: "Your changes have been applied to the game",
+        // });
       }
     } catch (error) {
       console.error("Error generating game:", error);
