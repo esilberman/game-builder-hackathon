@@ -36,7 +36,6 @@ export const Art = ({ onExport, aiImage }: ArtProps) => {
   const [selectedColor, setSelectedColor] = useState("black");
   const [selectedThickness, setSelectedThickness] = useState(2);
   const [input, setInput] = useState('');
-  const rightCanvasRef = useRef<HTMLCanvasElement>(null);
 
   const handleToolClick = (tool: Tool) => {
     setActiveTool(tool);
@@ -214,14 +213,9 @@ export const Art = ({ onExport, aiImage }: ArtProps) => {
           />
         </div>
 
-        {/* Right panel - Canvas */}
-        <div className="flex-1 aspect-square min-w-0 min-h-0">
-          <canvas
-            ref={rightCanvasRef}
-            className="w-full h-full bg-muted-foreground border border-accent/20"
-          >
-            <img src={aiImage} alt="AI drawing" className="max-w-full" />
-          </canvas>
+        {/* Right panel - AI image */}
+        <div className="flex-1 aspect-square min-w-0 min-h-0 bg-muted-foreground">
+            {aiImage && <img src={aiImage} alt="AI drawing" className="w-full h-full" />}
         </div>
       </div>
 
