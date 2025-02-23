@@ -25,7 +25,11 @@ const colors = {
 
 const thickness = [1, 2, 4, 10];
 
-export const Art = () => {
+interface ArtProps {
+   
+}
+
+export const Art = ({  }: ArtProps) => {
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
   const [activeTool, setActiveTool] = useState("select");
   const [selectedColor, setSelectedColor] = useState("black");
@@ -169,7 +173,7 @@ export const Art = () => {
       </div>
 
       {/* Bottom Toolbar */}
-      <div className="bottom-toolbar flex flex-row p-2 gap-2 justify-between align-end">
+      <div className="bottom-toolbar flex flex-row gap-2 justify-between align-end">
         <div className="bg-secondary flex flex-row p-2 gap-2 justify-center align-center rounded-sm ml-auto mr-auto">
           <Button
             variant={activeTool === "select" ? "default" : "ghost"}

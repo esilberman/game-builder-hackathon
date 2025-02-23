@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChevronLeft, ArrowUp, RefreshCw } from "lucide-react";
+import { ChevronLeft, ArrowUp, RefreshCw, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useGameCode } from '@/components/codeContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -98,7 +98,7 @@ const Edit = () => {
     }
   };
 
-  const renderBottomToolbar = () => {
+  const handleGenerateAIArt = () => {
     
   };
 
@@ -118,9 +118,15 @@ const Edit = () => {
               <TabsTrigger value="art" onClick={() => setTab('art')}>Art</TabsTrigger>
             </TabsList>
         </Tabs>
-        <Button variant="ghost" size="icon" className="hover:bg-accent" onClick={refreshIframe}>
-            <RefreshCw className="w-5 h-5" />
-        </Button>
+        {(tab === "game" || tab === "code") ? (
+            <Button variant="ghost" size="icon" className="hover:bg-accent" onClick={refreshIframe}>
+                <RefreshCw className="w-5 h-5" />
+            </Button>
+        ) : (
+            <Button size="sm" onClick={handleGenerateAIArt} className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl transition-all duration-200 transform hover:scale-105 flex items-center gap-2 font-medium">
+                <Sparkles className="w-5 h-5" />
+            </Button>
+        )}
       </div>
 
       {/* Main Stage */}
