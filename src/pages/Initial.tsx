@@ -60,7 +60,7 @@ const Initial = () => {
       });
     }
   };
-
+  
   return <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
       <div className="hero-pattern absolute inset-0 opacity-50" />
       <div className="hero-gradient absolute inset-0" />

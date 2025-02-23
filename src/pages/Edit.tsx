@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -99,6 +98,10 @@ const Edit = () => {
     }
   };
 
+  const renderBottomToolbar = () => {
+    
+  };
+
   return (
     <div className="h-screen bg-background text-foreground flex flex-col">
       {/* Top Bar */}
@@ -144,24 +147,29 @@ const Edit = () => {
            )}
       </div>
 
-      {/* Input Area */}
-      <div className="input-area bottom-0 w-full p-2 flex gap-2 bg-black">
-        <Input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Make a change..."
-          className="flex-1 h-auto"
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleSend();
-            }
-          }}
-        />
-        <Button onClick={handleSend}>
-          <ArrowUp className="w-5 h-5" />
-        </Button>
-      </div>
+      {(tab === "game" || tab === "code") ? (
+          <div className="input-area bottom-0 w-full p-2 flex gap-2 bg-black">
+            <Input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Make a change..."
+                className="flex-1 h-auto"
+                onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend();
+                }
+                }}
+            />
+            <Button onClick={handleSend}>
+                <ArrowUp className="w-5 h-5" />
+            </Button>
+          </div>
+        ) : (tab === "art") ? (
+          <div className="input-area bottom-0 w-full p-2 flex gap-2 bg-black">
+            
+          </div>
+        ) : null}
     </div>
   );
 };
