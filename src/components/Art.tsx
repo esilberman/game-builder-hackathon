@@ -160,7 +160,8 @@ export const Art = ({  }: ArtProps) => {
       
       const url = URL.createObjectURL(blob);
       console.log('userPng URL: ', url);
-      setUserPng(url);
+      await setUserPng(url);
+      return url;
     } catch (error) {
       console.error('Error exporting PNG:', error);
     }
@@ -185,8 +186,8 @@ export const Art = ({  }: ArtProps) => {
   }, [userPng]);
 
   const handleGenerateAIArt = async () => {
-    await exportPng();
-    console.log('generateAIArt with description: ', input, 'image: ', userPng);
+    const imgUrl = await exportPng();
+    console.log('generateAIArt with description: ', input, 'image: ', imgUrl);
   };
 
   useEffect(() => {
