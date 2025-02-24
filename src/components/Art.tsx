@@ -207,18 +207,18 @@ export const Art = ({  }: ArtProps) => {
     }
     
     console.log('generateAIArt with description: ', input, 'image: ', imgUrl);
-    // return generateAIImage({
-    //     req: {
-    //         text: input,
-    //         image: imgUrl,
-    //         img_size: 400,
-    //     },
-    // }).then(response => {
-    //     setAiImage(response.url);
-    // }).catch(error => {
-    //     console.error('Image generation failed: ', error);
-    //     throw error;
-    // });
+    return generateAIImage({
+        req: {
+            text: input,
+            image: imgUrl,
+            img_size: 400,
+        },
+    }).then(response => {
+        setAiImage(response.url);
+    }).catch(error => {
+        console.error('Image generation failed: ', error);
+        throw error;
+    });
   };
 
   useEffect(() => {
