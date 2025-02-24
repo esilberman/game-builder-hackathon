@@ -7,8 +7,8 @@ type AIResult = {
 };
 
 const TOGETHER_API_KEY = import.meta.env.VITE_TOGETHER_API_KEY;
-const model = "deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free";
-// "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free";
+const model = "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free";
+//"deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free";
 
 const systemPrompt = `You are an expert game developer who specializes in building web apps. Your job is to create a high-fidelity interactive and responsive working game.
 
