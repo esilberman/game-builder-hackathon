@@ -211,7 +211,7 @@ export const Art = ({  }: ArtProps) => {
         req: {
             text: input,
             image: imgUrl,
-            img_size: 400,
+            img_size: 512,
         },
     }).then(response => {
         setAiImage(response.url);
