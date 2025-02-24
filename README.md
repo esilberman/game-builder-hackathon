@@ -1,4 +1,4 @@
-# 🕹️ AI Game Builder
+# 🕹️ Playcade - AI Game Builder
 What if making games could be as fun and easy as playing games?
 
 ## 💻 To run the app
