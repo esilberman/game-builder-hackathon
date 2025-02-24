@@ -1,4 +1,4 @@
-# 🕹️ AI Game Builder - Hackathon
+# 🕹️ AI Game Builder
 What if making games could be as fun and easy as playing games?
 
 ## 💻 To run the app
@@ -8,8 +8,10 @@ What if making games could be as fun and easy as playing games?
 
 ## 💡 How it works
 Create playable games in seconds with an AI game studio in your pocket.
-* Ideate: Have a conversation about your game idea. Your AI game designer writes the spec.
-* Code: Your AI developer codes the game. Try your game right away and iterate with feedback.
-* Art: Upgrade your game art with AI generated images.
-* Play: Play your game! Share with friends.
+* Code: Your AI developer builds your idea. Preview your game right away and iterate with feedback.
+* Art: Upgrade your game’s visuals with AI generated images. A simple sketch is worth a thousand words.
+* Play: Play your game and share with friends.
+* Ideate: Not sure what game to make? Have a conversation with a game designer to get suggestions and help fleshing your game idea out.
+
+Built during the WW Weekend Hackathon.
 
