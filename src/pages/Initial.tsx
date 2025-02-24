@@ -64,7 +64,7 @@ const Initial = () => {
   return <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
       <div className="hero-pattern absolute inset-0 opacity-50" />
       <div className="hero-gradient absolute inset-0" />
-      <main className="relative container mx-auto px-4 pt-24 pb-32">
+      <main className="relative container mx-auto px-4 pt-28 pb-32">
         <motion.div initial={{
         opacity: 0,
         y: 20
@@ -75,7 +75,7 @@ const Initial = () => {
         duration: 0.6
       }} className="text-center max-w-5xl mx-auto">
           <div className="inline-block mb-6">
-            <div className="glass rounded-full px-6 py-2 text-sm font-light text-grey-400">
+            <div className="flex items-center justify-center glass rounded-full px-6 py-2 text-sm font-light text-grey-400 gap-2">
               An Arcade in Your Pocket
             </div>
           </div>
