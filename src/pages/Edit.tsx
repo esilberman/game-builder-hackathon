@@ -99,7 +99,7 @@ const Edit = () => {
   };
 
   return (
-    <div className="h-screen bg-background text-foreground flex flex-col">
+    <div className="h-screen max-h-screen bg-background text-foreground flex flex-col">
       {/* Top Bar */}
       <div className="top-0 w-screen flex flex-row align-center justify-between p-2">
         <Link to="/">

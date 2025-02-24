@@ -242,9 +242,9 @@ export const Art = ({  }: ArtProps) => {
             className="flex-1 h-auto"
         />
       </div>
-      <div className="flex flex-row gap-2 p-4 pt-0 max-w-full max-h-full min-w-0 min-h-0 overflow-hidden items-center justify-center mb-auto">
+      <div className="flex flex-row gap-2 p-4 pt-0 max-w-full min-w-0 min-h-0 overflow-hidden items-center justify-center mb-auto">
         {/* Left panel - Excalidraw */}
-        <div className="excalidraw-wrapper flex-1 aspect-square min-w-0 min-h-0">
+        <div className="excalidraw-wrapper flex-1 aspect-square min-w-0 min-h-0 max-h-[70vh]">
           <Excalidraw 
             theme="light" 
             excalidrawAPI={(api)=> setExcalidrawAPI(api)}
@@ -263,14 +263,14 @@ export const Art = ({  }: ArtProps) => {
         </div>
 
         {/* Right panel - AI image */}
-        <div className="flex-1 aspect-square min-w-0 min-h-0 bg-muted-foreground">
+        <div className="flex-1 aspect-square min-w-0 min-h-0 bg-muted-foreground max-h-[70vh]">
             {aiImage && <img src={aiImage} alt="AI drawing" className="w-full h-full" />}
         </div>
       </div>
 
       {/* Bottom Toolbar */}
-      <div className="bottom-toolbar flex flex-row gap-2 justify-between align-end">
-        <div className="bg-secondary flex flex-row p-2 gap-2 justify-center align-center rounded-sm ml-auto mr-auto">
+      <div className="bottom-toolbar flex flex-1 flex-row gap-2 justify-between align-end">
+        <div className="bg-secondary flex flex-row p-2 gap-2 justify-center align-end rounded-sm m-auto">
           <Button
             variant={activeTool === "select" ? "default" : "ghost"}
             size="icon"
@@ -333,12 +333,12 @@ export const Art = ({  }: ArtProps) => {
         </div>
       </div>
 
-      {(userPng || aiImage) && (
+      {/* {(userPng || aiImage) && (
           <div className="flex flex-row p-4 border gap-4">
               <img src={userPng} alt="Exported drawing" className="max-w-full" />
               <img src={aiImage} alt="AI drawing" className="max-w-full" />
           </div>
-      )}
+      )} */}
     </div>
   );
 };
