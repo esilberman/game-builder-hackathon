@@ -109,8 +109,8 @@ export const generateAIImage = async ({ req }: generateImageProps): Promise<AIRe
                 sync_mode: true,
                 expand_prompt: true, // default false
                 num_inference_steps: 4, // default 2
-                guidance_scale: 1.98, // default 1, max 2: prompt adherence
-                strength: 0.748, // default 0.95: image creativity
+                guidance_scale: 1.4, // default 1, max 2: prompt adherence
+                strength: 0.9, // default 0.95: image creativity
                 seed: 42,
             } as any);
         };
