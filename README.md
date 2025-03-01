@@ -1,4 +1,4 @@
-# 🕹️ Playcade - AI Game Builder
+# 🕹️ PlayMix - AI Game Builder
 
 ## Try it out
 https://www.playmix.ai/
